@@ -1,609 +1,574 @@
-Ensino Superior<br>Anatomia, Bioestatística, Biologia Celular e Molecular, Bioquímica, Excel, <br>Farmacologia, Física, Fisiologia, Genética, Histologia, MATLAB, Microbiologia, Neurociência, <br>Nutrição, Psicologia, Python, Química Orgânica e Inorgânica, R, SPSS, Visual Basic<br><span style='font-size:28px;font-weight:800'>50€/h</span><br><span style='color:#b00'>Lugares limitados</span><br><u>McMinsky.pt</u><!doctype html>
-<html lang="pt">
+<!DOCTYPE html>
+<html lang="pt-PT">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>prontuarios.pt · Catálogo com QR dinâmicos</title>
-  <meta name="color-scheme" content="dark light" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Fontes auto-hospedadas (robusto no GitHub Pages) -->
-  <style>
-    @font-face{
-      font-family:"InterLocal"; font-style:normal; font-weight:400; font-display:swap;
-      src:url("/assets/fonts/inter-400.woff2") format("woff2");
-    }
-    @font-face{
-      font-family:"InterLocal"; font-style:normal; font-weight:600; font-display:swap;
-      src:url("/assets/fonts/inter-600.woff2") format("woff2");
-    }
-    @font-face{
-      font-family:"MarcellusLocal"; font-style:normal; font-weight:400; font-display:swap;
-      src:url("/assets/fonts/marcellus-400.woff2") format("woff2");
-    }
-  </style>
-  <!-- Fallback Google Fonts (sem preload como font, sem OTS) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>NEURALOGICA — Social, Conteúdo, Anúncios. Sem Bullshit.</title>
+  <meta name="description" content="NEURALOGICA: gestão de redes sociais, conteúdo premium, anúncios pagos (Meta, TikTok, Google), analytics e criativo com fundamento em psicologia e neurociência. Resultados, não ruído." />
+  <meta name="theme-color" content="#000000" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="NEURALOGICA — Resultados. Sem Bullshit." />
+  <meta property="og:description" content="Gestão de social, conteúdo, ads e analytics com base em psicologia e neurociência. Lisboa, Portugal → mundo." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png" />
+  <meta property="og:locale" content="pt_PT" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png" />
+
+  <!-- Favicon (emoji brain) -->
+  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🧠</text></svg>' />
+
+  <!-- App icons -->
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png" />
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png" />
+
+  <!-- (Optional) Minimal manifest just to carry an icon -->
+  <link rel="manifest" href='data:application/manifest+json,{"name":"NEURALOGICA","short_name":"NEURALOGICA","start_url":"/","display":"standalone","background_color":"#000000","theme_color":"#000000","icons":[{"src":"https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png","sizes":"512x512","type":"image/png"}]}'>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Marcellus&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Chart.js for live chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
 
   <style>
     :root{
-      --bg:#0b0f14; --text:#eaf0f6; --muted:#9fb1c9;
-      --panel:#101720; --border:#213043; --ring:rgba(59,160,255,.35);
-      --accent:#3ba0ff; --accent-2:#59d0a0; --shadow:0 10px 28px rgba(0,0,0,.35);
+      --bg:#0b0b0b;
+      --ink:#ffffff;
+      --muted:#9a9a9a;
+      --line:#1b1b1b;
+      --accent:#ffffff; /* subtle white-on-black theme */
       --radius:18px;
-
-      --font-body:"InterLocal","Inter", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
-      --font-head:"MarcellusLocal","Marcellus", serif;
-
-      --site-card-min: 580px;         /* cartões maiores em desktop */
-      --site-card-ratio: 3/2;
-
-      --right-col: 20%;
-      --left-col: 80%;
-
-      --tl-size: clamp(22px, 2.6vw, 44px);
-      --bl-size: clamp(18px, 2.2vw, 36px);
-
-      --card-text-color: #0a0e14;
+      --max:1200px;
+      --shadow:0 30px 80px rgba(0,0,0,.35);
     }
-
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 var(--font-body)}
-    a{color:var(--accent);text-decoration:none}
-    img{max-width:100%;display:block}
-
+    body{
+      margin:0;
+      font-family:"Manrope",system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      line-height:1.45;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    a{color:var(--ink); text-decoration:none}
+    img{max-width:100%; display:block}
+    .container{width:100%; max-width:var(--max); margin:0 auto; padding:0 18px}
+    .grid{display:grid; gap:18px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      border:1px solid #fff; color:#000; background:#fff;
+      padding:12px 18px; border-radius:999px; font-weight:700;
+      transition:transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+    }
+    .btn.ghost{background:transparent; color:#fff; border-color:#2a2a2a}
+    .btn:hover{transform:translateY(-2px); box-shadow:0 10px 30px rgba(255,255,255,.08)}
+    .tag{display:inline-block; border:1px solid #2a2a2a; padding:6px 10px; border-radius:999px; color:#dcdcdc; font-size:.78rem; letter-spacing:.02em}
+    /* Header */
     header{
-      max-width:1200px;margin:28px auto 10px;padding:0 16px;
-      display:flex;gap:10px;align-items:center;justify-content:space-between
+      position:fixed; inset:0 0 auto 0; height:64px; display:flex; align-items:center;
+      background:rgba(10,10,10,.55); backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      z-index:40;
     }
-    .brand{font-weight:800;font-size:clamp(20px,2.6vw,28px)}
-    .panel{
-      background:linear-gradient(180deg,#0f1520,#0c131c);
-      border:1px solid var(--border); box-shadow:var(--shadow);
-      border-radius:var(--radius); padding:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center
+    header .inner{display:flex; align-items:center; justify-content:space-between}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.08em}
+    .brand img{width:34px; height:34px; border-radius:50%; filter:grayscale(100%) contrast(110%)}
+    nav a{opacity:.85; margin-left:14px; font-weight:600}
+    nav a:hover{opacity:1}
+    /* Hero */
+    .hero{
+      position:relative; min-height:100svh; display:grid; place-items:center; overflow:hidden;
+      border-bottom:1px solid var(--line);
     }
-    .field{display:flex;gap:10px;align-items:center;flex:1 1 420px}
-    .field label{font-size:13px;color:var(--muted);white-space:nowrap}
-    .field input{flex:1;background:#0e1621;border:1px solid #1e2a3a;color:var(--text);padding:10px 12px;border-radius:12px;outline:none;transition:box-shadow .2s,border-color .2s}
-    .field input:focus{border-color:#2a3e57;box-shadow:0 0 0 4px var(--ring)}
-    .btn{appearance:none;border:0;background:linear-gradient(135deg,var(--accent),#6dc3ff);color:#041421;font-weight:800;padding:10px 16px;border-radius:12px;cursor:pointer}
-    .btn-sec{appearance:none;border:1px solid var(--border);background:#0e1520;color:#cfe4ff;font-weight:700;padding:10px 16px;border-radius:12px;cursor:pointer}
-    .status{font-size:12px;color:var(--muted)}
-
-    main{max-width:1200px;margin:0 auto;padding:0 16px 40px}
-    .grid{
-      display:grid;gap:22px;
-      grid-template-columns:repeat(auto-fill,minmax(min(100%, var(--site-card-min)),1fr));
-      align-items:start
+    .hero video{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; filter:grayscale(100%) contrast(110%) brightness(.7);
     }
-
-    /* Título acima de cada cartão (nome do produto) */
-    .card-title{margin:0 0 6px; font:600 14px/1 var(--font-body); color:#cdd8ea; letter-spacing:.2px}
-
+    .hero::after{/* subtle vignette */
+      content:""; position:absolute; inset:0; background:radial-gradient(75% 60% at 50% 40%, rgba(0,0,0,.1) 0, rgba(0,0,0,.8) 100%);
+      pointer-events:none;
+    }
+    .hero .content{
+      position:relative; z-index:2; text-align:center; padding:90px 18px 70px;
+    }
+    .headline{
+      font-weight:800; letter-spacing:-.02em; line-height:1.05;
+      font-size: clamp(2.2rem, 4.8vw, 4.4rem);
+    }
+    .sub{color:#d8d8d8; max-width:740px; margin:14px auto 28px; font-size: clamp(1rem, 2.4vw, 1.15rem)}
+    .row{display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
+    /* Cards */
     .card{
-      background:#fff;color:var(--card-text-color);
-      border-radius:16px;border:1px solid #e8ecf2;
-      box-shadow:0 10px 30px rgba(0,0,0,.25);
-      width:100%;aspect-ratio:var(--site-card-ratio);
-      display:grid;grid-template-columns:var(--left-col) var(--right-col);grid-template-rows:1fr 1fr;gap:0;
-      position:relative;overflow:hidden;
-      font-family:var(--font-body);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06); border-radius:var(--radius);
+      padding:18px; box-shadow:var(--shadow);
     }
-    .cell{display:flex;align-items:center;justify-content:center;padding:14px}
-    .cell.top-left{font-family:var(--font-head); text-align:center}
-    .cell.bottom-left{font-family:var(--font-head); text-align:center}
-    .cell.top-right,.cell.bottom-right{padding:10px}
-    .logo{max-height:80%;object-fit:contain;margin:auto}
-    .qrbox{width:100%;height:100%;display:grid;place-items:center}
-    .qrbox>div{width:min(92%,190px)!important;height:min(92%,190px)!important}
-
-    .meta-wrap{display:flex;align-items:center;gap:12px;margin-top:8px;color:#5d6a7f}
-    .link{font-size:12px;color:#5d6a7f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-    .copy{font-size:12px;border:1px solid #e3e7ef;padding:6px 10px;border-radius:10px;background:#f6f8fc;color:#1d2736;cursor:pointer}
-    .select-print{display:flex;align-items:center;gap:6px;font-size:12px}
-
-    footer{max-width:1200px;margin:16px auto 40px;padding:0 16px;font-size:12px;color:#9fb1c9}
-    footer .ok{color:var(--accent-2);font-weight:700}
-
-    /* Modal */
-    .backdrop{position:fixed;inset:0;background:rgba(3,8,15,.74);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:9999}
-    .modal{width:min(720px,92vw);background:linear-gradient(180deg,#0f1520,#0a1018);border:1px solid #26364d;border-radius:20px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.55)}
-    .modal h3{margin:0 0 6px;color:#fff}
-    .modal p{margin:0 0 12px;color:#9fb1c9}
-    .form{display:grid;gap:12px;grid-template-columns:1fr 1fr}
-    .form .full{grid-column:1/-1}
-    .form label{color:#fff}
-    .form input,.form textarea{width:100%;background:#0d141d;border:1px solid #1e2a3a;color:#eaf0f6;padding:10px 12px;border-radius:12px;outline:none}
-    .form textarea{min-height:110px;resize:vertical}
-    .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
-    .btn-pri{background:linear-gradient(135deg,var(--accent-2),#78e3b3);color:#062017;font-weight:900;padding:10px 16px;border-radius:12px;cursor:pointer;border:0}
-    /* Mobile: 1 campo/linha */
-    @media (max-width:640px){ .form{grid-template-columns:1fr} }
-
-    /* Offscreen render helpers */
-    #offscreen{position:fixed;left:-9999px;top:-9999px}
+    .card h3{margin:0 0 6px 0; font-size:1.1rem}
+    .muted{color:var(--muted)}
+    section{padding:70px 0; border-bottom:1px solid var(--line)}
+    section h2{
+      font-size: clamp(1.6rem, 3.6vw, 2.2rem); margin:0 0 14px 0; letter-spacing:.01em;
+    }
+    .lead{color:#d0d0d0; margin:0 0 22px 0; max-width:820px}
+    ul.clean{list-style:none; padding:0; margin:0}
+    ul.clean li{padding:12px 0; border-bottom:1px dashed rgba(255,255,255,.08)}
+    .kpi{display:flex; gap:12px; align-items:center}
+    .kpi span{font-weight:800; font-size:1.4rem}
+    /* Knowledge tiles */
+    .tile{
+      border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px; background:rgba(255,255,255,.02)
+    }
+    .tile h4{margin:0 0 8px 0}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size:.85rem; color:#cfcfcf}
+    /* Team */
+    .team{grid-template-columns:repeat(auto-fit, minmax(220px,1fr))}
+    .person{padding:16px; border:1px solid rgba(255,255,255,.06); border-radius:14px; background:rgba(255,255,255,.02)}
+    .person h5{margin:8px 0 2px 0; font-size:1rem}
+    .person .role{color:#bdbdbd; font-size:.9rem}
+    /* Footer */
+    footer{padding:30px 0; color:#bdbdbd; font-size:.92rem}
+    footer a{color:#bdbdbd; text-decoration:underline dotted}
+    /* Reveal on scroll */
+    .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease}
+    .reveal.visible{opacity:1; transform:none}
+    /* Cookie bar & modals */
+    .cookiebar{
+      position:fixed; left:12px; right:12px; bottom:12px; background:#0f0f0f; color:#eaeaea;
+      border:1px solid #2a2a2a; border-radius:14px; padding:14px; z-index:50; box-shadow: var(--shadow);
+      display:none;
+    }
+    .cookiebar .links a{text-decoration:underline; color:#eaeaea}
+    .modal{
+      position:fixed; inset:0; background:rgba(0,0,0,.75); display:none; align-items:center; justify-content:center; z-index:60;
+    }
+    .modal .box{
+      max-width:800px; margin:18px; background:#0f0f0f; border:1px solid #2a2a2a; border-radius:16px; padding:18px 18px 12px;
+    }
+    .modal h3{margin:0 0 8px 0}
+    .close{float:right; font-weight:800; cursor:pointer; opacity:.7}
+    /* Responsive tweaks */
+    @media(min-width:900px){
+      .cols-2{display:grid; grid-template-columns:1.1fr .9fr; gap:22px}
+      .cols-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+      .hero .content{padding-top:120px}
+    }
   </style>
 </head>
+
 <body>
   <header>
-    <div class="brand">prontuarios.pt</div>
-    <div class="panel" role="group" aria-label="Controlo">
-      <div class="field">
-        <label for="affiliate">Affiliate</label>
-        <input id="affiliate" type="text" placeholder="ex.: afiliado_joao" autocomplete="off" />
+    <div class="container inner">
+      <div class="brand">
+        <img alt="NEURALOGICA" src="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png" />
+        <span>NEURALOGICA</span>
       </div>
-      <button class="btn" id="btnUpdate">Atualizar QR Codes</button>
-      <button class="btn-sec" id="btnExportPNG">Exportar 10×15 (PNG)</button>
-      <button class="btn-sec" id="btnExportPDF">Exportar 10×15 (PDF)</button>
-      <span class="status" id="status">—</span>
+      <nav aria-label="Primary">
+        <a href="#dores">Dores</a>
+        <a href="#solucao">Solução</a>
+        <a href="#provas">Resultados</a>
+        <a href="#conhecimento">Conhecimento</a>
+        <a href="#equipa">Equipa</a>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <section>
-      <h2 style="margin:18px 0 6px;font-size:20px;">Catálogo</h2>
+  <!-- HERO -->
+  <section class="hero" id="topo" aria-label="Abertura">
+    <video src="https://github.com/andrefrsilva/neuralogica/raw/refs/heads/main/M%C3%BAsica%20de%20Campanha%20-%20Esperan%C3%A7a.mp4"
+      autoplay muted loop playsinline preload="auto"></video>
 
-      <div class="grid" id="catalog">
-        <!-- === DUPLICA ESTES BLOCOS (um por cartão) === -->
-
-        <div class="card-holder">
-          <h3 class="card-title" data-title>Consultas McMinsky</h3>
-          <article
-            class="card"
-            data-product="McMinsky Kids"
-
-            data-tl-html="Problemas com <b>Notas</b>, <b>Rotinas</b>, <b>Motivação</b>?<br><u>Criança especial?</u><br>Do 1º ao 12º ano"
-            data-bl-html="<span style='font-size:28px;font-weight:800'>30€/h</span><br>ou <b>198€/mês</b><br><span style='color:#b00'>Lugares limitados</span><br><u>McMinsky.pt</u>"
-          >
-            <div class="cell top-left"><div class="tl"></div></div>
-            <div class="cell top-right"><img class="logo" src="https://i.postimg.cc/J0vfbk2B/image.png" alt="Logótipo" /></div>
-            <div class="cell bottom-left"><div class="bl"></div></div>
-            <div class="cell bottom-right"><div class="qrbox" data-qr></div></div>
-          </article>
-          <div class="meta-wrap">
-            <span class="link" data-link>—</span>
-            <label class="select-print"><input type="checkbox" data-select /> Selecionar p/ impressão</label>
-            <button class="copy" data-copy>Copiar URL</button>
-          </div>
-        </div>
-
-        <div class="card-holder">
-          <h3 class="card-title" data-title>Template de Proposta</h3>
-          <article
-            class="card"
-            data-product="McMinsky Graduates"
-
-                   data-tl-html="Muita matéria? Precisas de <i>cheats</i>? Sem tempo para estudar?<br>Não percebes nada? Exames próximos? Deixaste tudo para a última?<br><u>Já ajudei mais de 800 alunos como tu.</u>"
-            data-bl-html="Ensino Superior<br>Anatomia, Bioestatística, Biologia Celular e Molecular, Bioquímica, Excel, <br>Farmacologia, Física, Fisiologia, Genética, Histologia, MATLAB, Microbiologia, Neurociência, <br>Nutrição, Psicologia, Python, Química Orgânica e Inorgânica, R, SPSS, Visual Basic<br><span style='font-size:28px;font-weight:800'>50€/h</span><br><span style='color:#b00'>Lugares limitados</span><br><u>McMinsky.pt</u>"
-          >
-            <div class="cell top-left"><div class="tl"></div></div>
-            <div class="cell top-right"><img class="logo" src="https://i.postimg.cc/J0vfbk2B/image.png" alt="Logótipo" /></div>
-            <div class="cell bottom-left"><div class="bl"></div></div>
-            <div class="cell bottom-right"><div class="qrbox" data-qr></div></div>
-          </article>
-          <div class="meta-wrap">
-            <span class="link" data-link>—</span>
-            <label class="select-print"><input type="checkbox" data-select /> Selecionar p/ impressão</label>
-            <button class="copy" data-copy>Copiar URL</button>
-          </div>
-        </div>
-
-        <div class="card-holder">
-          <h3 class="card-title" data-title>Checklist de Auditoria</h3>
-          <article
-            class="card"
-            data-product="Sites"
-
-                   data-tl-html="Sem site? Site antigo? Tudo nas redes sociais e fica caótico?<br>Credibilidade afetada quando pesquisam no Google?"
-            data-bl-html="Ensino Superior<br>Anatomia, Bioestatística, Biologia Celular e Molecular, Bioquímica, Excel, <br>Farmacologia, Física, Fisiologia, Genética, Histologia, MATLAB, Microbiologia, Neurociência, <br>Nutrição, Psicologia, Python, Química Orgânica e Inorgânica, R, SPSS, Visual Basic<br><span style='font-size:28px;font-weight:800'>50€/h</span><br><span style='color:#b00'>Lugares limitados</span><br><u>McMinsky.pt</u>"
-          >
-            <div class="cell top-left"><div class="tl"></div></div>
-            <div class="cell top-right"><img class="logo" src="https://i.postimg.cc/J0vfbk2B/image.png" alt="Logótipo" /></div>
-            <div class="cell bottom-left"><div class="bl"></div></div>
-            <div class="cell bottom-right"><div class="qrbox" data-qr></div></div>
-          </article>
-          <div class="meta-wrap">
-            <span class="link" data-link>—</span>
-            <label class="select-print"><input type="checkbox" data-select /> Selecionar p/ impressão</label>
-            <button class="copy" data-copy>Copiar URL</button>
-          </div>
-        </div>
-
+    <div class="content container">
+      <div class="row" style="margin-bottom:14px;">
+        <span class="tag">Lisboa → Mundo</span>
+        <span class="tag">Psicologia & Neurociência</span>
+        <span class="tag">Conteúdo • Social • Ads</span>
       </div>
-    </section>
-  </main>
+      <h1 class="headline">Resultados. Sem Bullshit.<br/> Criativo com mente científica.</h1>
+      <p class="sub">Gestão de redes, conteúdo premium (vídeo, foto, música, voz-off), e anúncios (Meta, TikTok, Google). Medimos o que interessa: receita, CAC, ROAS. Vocês ganham; nós ganhamos.</p>
+      <div class="row">
+        <a class="btn" href="#dores">Ver se isto é para mim</a>
+        <a class="btn ghost" href="#solucao">O que fazemos</a>
+      </div>
+    </div>
+  </section>
 
+  <!-- DORES -->
+  <section id="dores" class="reveal">
+    <div class="container">
+      <h2>Dores que vemos todos os dias</h2>
+      <p class="lead">Se estas linhas doem, é porque já estivemos aí. Trabalhamos para resolver — não para entreter.</p>
+
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Estratégia</h3>
+          <ul class="clean">
+            <li>Calendário de posts ≠ estratégia.</li>
+            <li>Mensagem muda consoante quem escreveu.</li>
+            <li>Sem persona, sem proposta de valor clara.</li>
+            <li>Objetivos por funil? Só no papel.</li>
+            <li>Promessas que chumbam políticas de ads.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Criativo</h3>
+          <ul class="clean">
+            <li>Templates iguais a toda a gente.</li>
+            <li>Vídeos sem guião, sem hook, sem CTA.</li>
+            <li>Stock cliché; zero UGC com clientes.</li>
+            <li>Erros de copy; PT-PT vs PT-BR aleatório.</li>
+            <li>Fadiga criativa: CTR desce, frequência sobe.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Paid & Dados</h3>
+          <ul class="clean">
+            <li>“Boost post” a substituir campanhas.</li>
+            <li>Pixel/GA4 sem eventos; compras = page view.</li>
+            <li>Sem testes A/B; decisões por “gosto”.</li>
+            <li>Bloqueios de conta e ninguém com playbook.</li>
+            <li>Relatórios de vaidade: likes & alcance.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid cols-3" style="margin-top:18px">
+        <div class="card">
+          <h3>Operação</h3>
+          <ul class="clean">
+            <li>Dependência de “mandem fotos” → nunca chegam.</li>
+            <li>Aprovações lentas; perde-se o timing.</li>
+            <li>Horários errados; feriados ignorados.</li>
+            <li>Trocas constantes de account.</li>
+            <li>Suporte reativo, não proativo.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Negócio</h3>
+          <ul class="clean">
+            <li>Sem ligação a CRM ou WhatsApp Business.</li>
+            <li>Sem atribuição; topo do funil é cortado.</li>
+            <li>Checkout lento; sem MBWay/Ref. Multibanco.</li>
+            <li>RGPD por cumprir (consent/cookies).</li>
+            <li>Prova social subaproveitada.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Portugalidade</h3>
+          <ul class="clean">
+            <li>Portes/Açores & Madeira sem comunicação clara.</li>
+            <li>Tom cultural “importado” que não cola.</li>
+            <li>Integração de faturação que atrasa a operação.</li>
+            <li>Equipa sem autonomia → micromanagement.</li>
+            <li>Ticket baixo, expectativa alta, zero foco.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUÇÃO / PACOTE -->
+  <section id="solucao" class="reveal">
+    <div class="container">
+      <h2>O que fazemos (e como medimos)</h2>
+      <p class="lead">Pacote completo: operação sem fricção + criativo de topo + paid media com ciência aplicada. Vocês não perdem tempo; ganham vendas.</p>
+
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Gestão de Social</h3>
+          <ul class="clean">
+            <li>Planeamento editorial com funil (TOFU/MOFU/BOFU).</li>
+            <li>Resposta a comentários e DMs (SLA acordado).</li>
+            <li>UGC guiado (scripts simples + edição).</li>
+            <li>Calendário aprovado em ferramenta partilhada.</li>
+            <li>Reporting mensal de negócio (não vaidade).</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Criação de Conteúdo</h3>
+          <ul class="clean">
+            <li>Vídeo vertical & carrosséis de alta performance.</li>
+            <li>Fotografia e imagem editorial.</li>
+            <li>Música personalizada & voice-over profissional.</li>
+            <li>Copywriting com humor e prova.</li>
+            <li>Design minimalista premium (B&W first).</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Ads & Analytics</h3>
+          <ul class="clean">
+            <li>Meta, Instagram, TikTok, Google (Search/PMAX/YouTube).</li>
+            <li>Estrutura por objetivos; testes A/B contínuos.</li>
+            <li>Pixel/GA4/Consent Mode, eventos e CRM.</li>
+            <li>Landing pages no-code, rápidas e focadas.</li>
+            <li>Dash de CAC, ROAS, LTV e cohorts.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:16px">
+        <a class="btn" href="#provas">Ver provas</a>
+        <a class="btn ghost" href="#equipa">Conhecer a equipa</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTADOS / PROVAS -->
+  <section id="provas" class="reveal">
+    <div class="container cols-2">
+      <div>
+        <h2>Temos provas dadas</h2>
+        <p class="lead">Evolução (fictícia mas realista) de % aumento de vendas atribuídas a ads entre Janeiro e Setembro de 2025. Não prometemos milagres; prometemos método.</p>
+
+        <div class="kpi">
+          <span id="kpi-roas">ROAS ×—</span>
+          <span class="muted">Média 90 dias • Atualiza ao carregar</span>
+        </div>
+        <canvas id="growth" height="220" style="margin-top:10px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); border-radius:16px;"></canvas>
+      </div>
+
+      <div class="card">
+        <h3>Como medimos sucesso</h3>
+        <ul class="clean">
+          <li>CPL, CAC, ROAS e Receita incremental (não “likes”).</li>
+          <li>Experimentos com hipótese, tamanho mínimo e critério de paragem.</li>
+          <li>Modelos de atribuição + janelas por canal.</li>
+          <li>Reunião mensal curta: decisões, não “report show”.</li>
+          <li>Vocês ganham → nós escalamos com vocês.</li>
+        </ul>
+        <div style="margin-top:12px">
+          <a class="btn" href="#contacto">Quero este rigor</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONHECIMENTO -->
+  <section id="conhecimento" class="reveal">
+    <div class="container">
+      <h2>Conhecimento aplicado: neuro + psicologia</h2>
+      <p class="lead">Não é “neuro-bla-bla”. É ciência com utilidade prática para conteúdo e anúncios — com ética.</p>
+
+      <div class="grid cols-3">
+        <div class="tile">
+          <h4>Dopamina</h4>
+          <p class="muted">Motivação/novidade. <span class="mono">Aplicação:</span> hooks visuais em 2s, progress bars, séries (“Episódio 1/5”).</p>
+        </div>
+        <div class="tile">
+          <h4>Serotonina</h4>
+          <p class="muted">Confiança/status. <span class="mono">Aplicação:</span> prova social, selos, antes/depois auditável.</p>
+        </div>
+        <div class="tile">
+          <h4>Oxitocina</h4>
+          <p class="muted">Vínculo/empatia. <span class="mono">Aplicação:</span> histórias de cliente, rosto+voz verdadeira.</p>
+        </div>
+        <div class="tile">
+          <h4>Noradrenalina</h4>
+          <p class="muted">Atenção/alerta. <span class="mono">Aplicação:</span> contraste B&W, ritmo de edição, pausas intencionais.</p>
+        </div>
+        <div class="tile">
+          <h4>Acetilcolina</h4>
+          <p class="muted">Foco/aprendizagem. <span class="mono">Aplicação:</span> mini-aulas úteis (15–30s) com CTA para guia.</p>
+        </div>
+        <div class="tile">
+          <h4>GABA</h4>
+          <p class="muted">Calma/segurança. <span class="mono">Aplicação:</span> landing limpa, passos simples, políticas claras.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFERENCIAÇÃO -->
+  <section id="vantagens" class="reveal">
+    <div class="container">
+      <h2>Porque somos diferentes</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Autonomia</h3><p class="muted">Não precisamos de micromanagement. Brief claro → execução.</p></div>
+        <div class="card"><h3>Obcecados por resultado</h3><p class="muted">Falamos receita, CAC e margem. Só isso interessa.</p></div>
+        <div class="card"><h3>No-Bullshit</h3><p class="muted">Sem truques, sem promessas vazias, sem apresentações infinitas.</p></div>
+        <div class="card"><h3>Humor com timing</h3><p class="muted">Marca humana vende. Fazemos rir sem perder rigor.</p></div>
+        <div class="card"><h3>Playbooks</h3><p class="muted">Políticas de anúncios, bloqueios, UGC, crises — tudo documentado.</p></div>
+        <div class="card"><h3>Propriedade vossa</h3><p class="muted">BM, Pixels, GA4 e domínios ficam no vosso nome. Sempre.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPA -->
+  <section id="equipa" class="reveal">
+    <div class="container">
+      <h2>Equipa híbrida: indústria × academia × artes</h2>
+      <div class="grid team">
+        <div class="person">
+          <h5>Inês Moreira</h5><div class="role">Psicóloga & Head of Behavioral Strategy</div>
+          <p class="muted">Modelos de decisão, arquétipos e testes qualitativos rápidos.</p>
+        </div>
+        <div class="person">
+          <h5>Tiago Duarte</h5><div class="role">Neurocientista Aplicado</div>
+          <p class="muted">Insights neuro → guião e criativo que ativa atenção e memória.</p>
+        </div>
+        <div class="person">
+          <h5>Ricardo Fonseca</h5><div class="role">Data & Attribution Lead</div>
+          <p class="muted">GA4, MMM leve, ROAS real e dashboards que importam.</p>
+        </div>
+        <div class="person">
+          <h5>Sara Pereira</h5><div class="role">Fotógrafa & Direção de Imagem</div>
+          <p class="muted">Estética editorial preto-&-branco com propósito.</p>
+        </div>
+        <div class="person">
+          <h5>Joana Faria</h5><div class="role">Jornalista & Copy Lead</div>
+          <p class="muted">Storytelling com prova, humor e clareza.</p>
+        </div>
+        <div class="person">
+          <h5>André Lemos</h5><div class="role">Engineering & Marketing Ops</div>
+          <p class="muted">Landing pages, integrações, automações e QA técnico.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO / CTA -->
+  <section id="contacto" class="reveal">
+    <div class="container">
+      <h2>Marcar conversa</h2>
+      <p class="lead">15 minutos para percebermos dores, objetivos e próximos passos. Se não houver “fit”, dizemo-lo sem rodeios.</p>
+      <a class="btn" href="https://cal.com/neuralogica/15min" target="_blank" rel="noopener">Abrir agenda</a>
+      <a class="btn ghost" href="#topo">Voltar ao topo</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    ⚙️ O affiliate fica guardado (localStorage).
-    <span class="ok" id="lastAction"></span>
+    <div class="container">
+      © <span id="year"></span> NEURALOGICA — Lisboa, Portugal. Todos os direitos reservados.
+    </div>
   </footer>
 
-  <!-- Modal (abre com ?p=...&a=...) -->
-  <div class="backdrop" id="modalBackdrop" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <h3 id="modalTitle">Pedido de informação</h3>
-      <p>Preenche os campos. O teu pedido será encaminhado internamente.</p>
-
-      <form id="uiForm" class="form" novalidate>
-        <div class="full">
-          <label for="produtoView">Produto</label>
-          <input id="produtoView" type="text" disabled />
-        </div>
-        <div>
-          <label for="nome">Nome</label>
-          <input id="nome" type="text" placeholder="O teu nome (opcional)" />
-        </div>
-        <div>
-          <label for="contacto">Contacto</label>
-          <input id="contacto" type="text" placeholder="Email ou telemóvel (opcional)" />
-        </div>
-        <div class="full">
-          <label for="mensagem">Mensagem</label>
-          <textarea id="mensagem" placeholder="Escreve aqui a tua mensagem (opcional)"></textarea>
-        </div>
-
-        <div class="actions full">
-          <button type="button" class="btn-sec" id="btnClose">Fechar</button>
-          <button type="submit" class="btn-pri">Enviar</button>
-        </div>
-        <p class="status full" id="formStatus">—</p>
-      </form>
+  <!-- Cookie bar -->
+  <div class="cookiebar" id="cookiebar" role="dialog" aria-live="polite" aria-label="Consentimento de cookies">
+    <div style="display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap">
+      <div>
+        Usamos cookies mínimos para analytics anónimos e melhorar a experiência.
+        <span class="links">Leia os <a href="#" data-open="terms">termos</a> e a <a href="#" data-open="cookies">política de cookies</a>.</span>
+      </div>
+      <button id="acceptCookies" class="btn">Aceitar e continuar</button>
     </div>
   </div>
 
-  <!-- Offscreen helpers -->
-  <div id="offscreen"></div>
+  <!-- Terms Modal -->
+  <div class="modal" id="modal-terms" aria-hidden="true">
+    <div class="box">
+      <span class="close" data-close="terms">✕</span>
+      <h3>Termos & Condições</h3>
+      <p class="muted">
+        Fornecemos serviços de gestão de redes, conteúdo e publicidade digital. A propriedade de contas (Business Manager,
+        pixels, domínios, GA4) permanece do cliente, salvo acordo expresso em contrário. Dados pessoais são tratados
+        segundo o RGPD com base em interesse legítimo e execução contratual. Cancelamentos requerem aviso prévio de 30 dias.
+      </p>
+    </div>
+  </div>
 
-  <!-- libs -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- Cookies Modal -->
+  <div class="modal" id="modal-cookies" aria-hidden="true">
+    <div class="box">
+      <span class="close" data-close="cookies">✕</span>
+      <h3>Política de Cookies</h3>
+      <p class="muted">
+        Usamos cookies estritamente necessários (sessão) e cookies de medição anónima (GA4 com Consent Mode). Pode gerir consentimento no seu browser.
+        Não vendemos dados. Para pedidos RGPD, contacte-nos pelo formulário de marcação.
+      </p>
+    </div>
+  </div>
 
+  <!-- Scripts -->
   <script>
-  (function(){
-    // ====== GOOGLE FORMS (mesma aba, robusto) ======
-    const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSeKazNy8WHQL5xqdJMk5PJZJKJAr6bMy2Nk14VZCiUGTY8-AA/formResponse";
-    const ENTRY_PROD = "entry.698615008";   // NOME DO CARTÃO
-    const ENTRY_AFF  = "entry.645159200";   // AFFILIATE
-    const ENTRY_TXT  = "entry.1002593961";  // BLOCO (Nome/Contacto/Mensagem)
+    // Dynamic year
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ====== SITE / QR ======
-    const SITE_BASE = "https://prontuarios.pt/";
-    const LOGO_URL = "https://i.postimg.cc/J0vfbk2B/image.png";
-
-    // ====== ELEMENTOS ======
-    const $aff = document.getElementById("affiliate");
-    const $btnUpdate = document.getElementById("btnUpdate");
-    const $btnExportPNG = document.getElementById("btnExportPNG");
-    const $btnExportPDF = document.getElementById("btnExportPDF");
-    const $status = document.getElementById("status");
-    const $lastAction = document.getElementById("lastAction");
-    const $catalog = document.getElementById("catalog");
-
-    const $backdrop = document.getElementById("modalBackdrop");
-    const $uiForm = document.getElementById("uiForm");
-    const $btnClose = document.getElementById("btnClose");
-    const $formStatus = document.getElementById("formStatus");
-    const $produtoView = document.getElementById("produtoView");
-    const $offscreen = document.getElementById("offscreen");
-
-    // Helpers
-    const qs=(s,c=document)=>c.querySelector(s);
-    const qsa=(s,c=document)=>Array.from(c.querySelectorAll(s));
-    function setStatus(msg, ok=false){ $status.textContent = msg; $status.style.color = ok ? "var(--accent-2)" : "#9fb1c9"; }
-    function saveAff(v){ try{localStorage.setItem("prontuarios_aff", v||"")}catch{} }
-    function loadAff(){ try{return localStorage.getItem("prontuarios_aff")||""}catch{ return "" } }
-    function linkFor(product, affiliate){ const u = new URL(SITE_BASE); u.searchParams.set("p", product); u.searchParams.set("a", affiliate); return u.toString(); }
-    function clear(el){ while(el.firstChild) el.removeChild(el.firstChild); }
-
-    // ==== Conteúdo rico por cartão (data-*-html ou template) ====
-    function getBlockHTML(card, key) {
-      const htmlAttr = card.getAttribute(`data-${key}-html`);
-      if (htmlAttr) return htmlAttr;
-      const tplSel = card.getAttribute(`data-${key}-tpl`);
-      if (tplSel) {
-        const tpl = document.querySelector(tplSel);
-        if (tpl && 'content' in tpl) return tpl.innerHTML.trim();
-      }
-      const el = card.querySelector(key === 'tl' ? '.tl' : '.bl');
-      return el ? el.innerHTML.trim() : '';
-    }
-    function applyPerCardContent(card) {
-      const elTL = card.querySelector('.tl');
-      const elBL = card.querySelector('.bl');
-      if (elTL) { elTL.innerHTML = getBlockHTML(card, 'tl'); elTL.style.textAlign='center'; }
-      if (elBL) { elBL.innerHTML = getBlockHTML(card, 'bl'); elBL.style.textAlign='center'; }
-    }
-
-    // ====== QR CODES NO SITE ======
-    function regen(){
-      const affiliate = ($aff.value||"").trim();
-      if(!affiliate){ setStatus("⚠️ Introduz um affiliate e clica em Atualizar."); return; }
-      saveAff(affiliate);
-      qsa(".card-holder", $catalog).forEach(holder=>{
-        const card = holder.querySelector(".card");
-        const titleEl = holder.querySelector("[data-title]");
-        const product = card.getAttribute("data-product") || titleEl?.textContent || "Produto";
-
-        // título coerente
-        if (titleEl) titleEl.textContent = product;
-
-        const url = linkFor(product, affiliate);
-
-        // textos internos por cartão
-        applyPerCardContent(card);
-
-        // url por baixo
-        const linkEl = holder.querySelector("[data-link]"); if(linkEl) linkEl.textContent = url;
-
-        // copiar
-        const btnCopy = holder.querySelector("[data-copy]");
-        if(btnCopy){
-          btnCopy.onclick = async ()=>{ try{ await navigator.clipboard.writeText(url); btnCopy.textContent="Copiado!"; setTimeout(()=>btnCopy.textContent="Copiar URL",1200);}catch{ alert(url);} };
-        }
-
-        // qrcode
-        const qrbox = qs("[data-qr]", card);
-        if(qrbox){
-          clear(qrbox);
-          if(typeof QRCode === "undefined"){ setTimeout(regen,120); return; }
-          new QRCode(qrbox, { text:url, width:190, height:190, correctLevel: QRCode.CorrectLevel.M });
-        }
+    // Scroll reveal
+    const revealEl = document.querySelectorAll('.reveal, .card, .tile, .person');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
       });
-      setStatus("✅ QR Codes atualizados.", true);
-      $lastAction.textContent = " · Affiliate ativo: " + affiliate;
-    }
+    },{threshold:.12});
+    revealEl.forEach(el=>io.observe(el));
 
-    // ====== MODAL LANDING ======
-    function getParam(n){ try{ return new URL(window.location.href).searchParams.get(n) }catch{ return null } }
-    function openModal(){ $backdrop.style.display="flex"; $backdrop.setAttribute("aria-hidden","false"); document.body.style.overflow="hidden"; }
-    function closeModal(){ $backdrop.style.display="none"; $backdrop.setAttribute("aria-hidden","true"); document.body.style.overflow=""; }
-
-    function handleLanding(){
-      const p = getParam("p");
-      const a = getParam("a");
-      if(!p || !a) return;
-      $produtoView.value = p;                         // mostra produto no modal
-      window.__landing = { produto:p, affiliate:a };  // guarda p/ envio
-      openModal();
-    }
-
-    // ====== ENVIO ROBUSTO (mesma aba, sem pop-ups) ======
-    function postToGoogleFormsSameTab(produto, affiliate, texto){
-      const form = document.createElement("form");
-      form.method = "POST";
-      form.action = FORM_ACTION;
-      form.target = "_self";         // mesma aba (robusto em mobile/desktop)
-      form.style.position="absolute"; form.style.left="-9999px";
-
-      const mk=(name,val)=>{const i=document.createElement("input"); i.type="hidden"; i.name=name; i.value=val; return i;};
-      form.appendChild(mk(ENTRY_PROD, produto));
-      form.appendChild(mk(ENTRY_AFF,  affiliate));
-      form.appendChild(mk(ENTRY_TXT,  texto||""));
-      document.body.appendChild(form);
-      form.submit();
-    }
-
-    $uiForm.addEventListener("submit", (e)=>{
-      e.preventDefault();
-      const produto   = window.__landing?.produto || "";
-      const affiliate = window.__landing?.affiliate || "";
-      const nome      = (qs("#nome").value||"").trim();
-      const contacto  = (qs("#contacto").value||"").trim();
-      const mensagem  = (qs("#mensagem").value||"").trim();
-      const partes = [];
-      if(nome) partes.push("Nome: " + nome);
-      if(contacto) partes.push("Contacto: " + contacto);
-      if(mensagem) partes.push("Mensagem: " + mensagem);
-      const texto = partes.join("\n");
-
-      if(!produto || !affiliate){
-        $formStatus.textContent = "⚠️ Falta produto/affiliate no URL.";
-        return;
-      }
-      postToGoogleFormsSameTab(produto, affiliate, texto);
+    // Cookie bar logic (minimal GDPR-style)
+    const cookieKey="nl_cookie_ok_v1";
+    const bar = document.getElementById('cookiebar');
+    if(!localStorage.getItem(cookieKey)) bar.style.display='block';
+    document.getElementById('acceptCookies').addEventListener('click', ()=>{
+      localStorage.setItem(cookieKey, '1'); bar.style.display='none';
     });
 
-    $btnClose.addEventListener("click", closeModal);
-    $backdrop.addEventListener("click", (e)=>{ if(e.target.id==="modalBackdrop") closeModal(); });
+    // Modal helpers
+    const openLinks = document.querySelectorAll('[data-open]');
+    const closeBtns  = document.querySelectorAll('[data-close]');
+    openLinks.forEach(a=>{
+      a.addEventListener('click', (e)=>{ e.preventDefault(); const id=a.dataset.open; document.getElementById('modal-'+id).style.display='flex';});
+    });
+    closeBtns.forEach(b=>{
+      b.addEventListener('click', ()=>{ document.getElementById('modal-'+b.dataset.close).style.display='none';});
+    });
+    document.querySelectorAll('.modal').forEach(m=>{
+      m.addEventListener('click', (e)=>{ if(e.target===m) m.style.display='none';});
+    });
 
-    // ====== EXPORTAÇÃO 10×15 (pares) — Canvas + PDF ======
-    const SHEET_W = 1772, SHEET_H = 1181;   // 10×15 landscape ~300dpi
-    const HALF_H  = Math.floor(SHEET_H/2);
-    const RIGHT_W = Math.round(SHEET_W * 0.20);
-    const LEFT_W  = SHEET_W - RIGHT_W;
-
-    // --- parser HTML rico (br, b/strong, u, span: color/font-weight/font-size) ---
-    function parseRichHTML(html) {
-      const c = document.createElement('div'); c.innerHTML = html;
-      const lines = [[]];
-      function pushText(text, style){ if(!text) return; lines[lines.length-1].push({ text, ...style }); }
-      function trav(n, style){
-        if(n.nodeType===Node.TEXT_NODE){ pushText(n.textContent, style); return; }
-        if(n.nodeType!==Node.ELEMENT_NODE) return;
-        const tag=n.tagName.toLowerCase(); const next={...style};
-        if(tag==='br'){ lines.push([]); return; }
-        if(tag==='b'||tag==='strong') next.weight=700;
-        if(tag==='u') next.underline=true;
-        if(tag==='span'&&n.hasAttribute('style')){
-          const st=n.getAttribute('style');
-          const mC=st.match(/color:\s*([^;]+)/i);
-          const mW=st.match(/font-weight:\s*(\d+)/i);
-          const mS=st.match(/font-size:\s*(\d+)px/i);
-          if(mC) next.color=mC[1].trim();
-          if(mW) next.weight=parseInt(mW[1],10);
-          if(mS) next.size=parseInt(mS[1],10);
-        }
-        Array.from(n.childNodes).forEach(ch=>trav(ch,next));
-      }
-      trav(c,{weight:600,underline:false,color:'#0a0e14',size:null});
-      return lines;
-    }
-    function willFitRich(ctx, lines, w, h, basePx, family){
-      const lineHeights = lines.map(ln => Math.ceil(Math.max(basePx, ...ln.map(s=>s.size||0)) * 1.25));
-      const totalH = lineHeights.reduce((a,b)=>a+b,0);
-      let maxW=0;
-      for(const ln of lines){
-        let wSum=0;
-        for(const seg of ln){
-          const px = seg.size || basePx;
-          ctx.font = `${seg.weight} ${px}px ${family}`;
-          wSum += ctx.measureText(seg.text).width;
-        }
-        maxW = Math.max(maxW, wSum);
-      }
-      return (totalH <= h*0.9) && (maxW <= w*0.95);
-    }
-    function drawRichCentered(ctx, html, x, y, w, h, basePx, family) {
-      const lines = parseRichHTML(html);
-      let lo=10, hi=basePx||64, best=18;
-      while(lo<=hi){ const mid=(lo+hi>>1); if(willFitRich(ctx, lines, w, h, mid, family)){ best=mid; lo=mid+1; } else hi=mid-1; }
-      const lineHeights = lines.map(ln => Math.ceil(Math.max(best, ...ln.map(s=>s.size||0)) * 1.25));
-      const totalH = lineHeights.reduce((a,b)=>a+b,0);
-      let curY = y + (h - totalH)/2;
-      for(let i=0;i<lines.length;i++){
-        const ln = lines[i];
-        let lineW=0; for(const seg of ln){ const px=seg.size||best; ctx.font=`${seg.weight} ${px}px ${family}`; lineW+=ctx.measureText(seg.text).width; }
-        let curX = x + (w - lineW)/2;
-        for(const seg of ln){
-          const px=seg.size||best;
-          ctx.font=`${seg.weight} ${px}px ${family}`;
-          ctx.fillStyle=seg.color||'#0a0e14';
-          ctx.textBaseline='alphabetic';
-          ctx.fillText(seg.text, curX, curY + px);
-          if(seg.underline){
-            const m=ctx.measureText(seg.text);
-            const underlineY = curY + px + 3;
-            ctx.beginPath(); ctx.moveTo(curX, underlineY); ctx.lineTo(curX+m.width, underlineY);
-            ctx.lineWidth=Math.max(1, Math.round(px/14));
-            ctx.strokeStyle=ctx.fillStyle; ctx.stroke();
+    // Chart.js — invented but plausible numbers (Jan–Sep 2025)
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const ctx = document.getElementById('growth');
+      if(!ctx) return;
+      const labels = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set'];
+      const data = [8, 12, 20, 18, 32, 45, 41, 58, 73]; // % aumento de vendas YoY atribuídas
+      const chart = new Chart(ctx, {
+        type:'line',
+        data:{
+          labels,
+          datasets:[{
+            label:'% aumento de vendas atribuídas',
+            data,
+            tension:.35,
+            fill:true,
+            borderWidth:2,
+            borderColor:'#ffffff',
+            backgroundColor:'rgba(255,255,255,.08)',
+            pointRadius:0,
+            pointHoverRadius:5
+          }]
+        },
+        options:{
+          responsive:true,
+          maintainAspectRatio:false,
+          scales:{
+            x:{ grid:{color:'rgba(255,255,255,.05)'}, ticks:{color:'#cfcfcf'} },
+            y:{ beginAtZero:true, grid:{color:'rgba(255,255,255,.05)'}, ticks:{color:'#cfcfcf', callback:(v)=>v+'%'} }
+          },
+          plugins:{
+            legend:{display:false},
+            tooltip:{backgroundColor:'#0f0f0f', borderColor:'#2a2a2a', borderWidth:1, padding:10, callbacks:{label:(ctx)=>ctx.parsed.y+'%'}}
           }
-          curX += ctx.measureText(seg.text).width;
         }
-        curY += lineHeights[i];
-      }
-    }
-
-    function makeQRDataURL(url, size=300){
-      return new Promise((resolve)=>{
-        const holder = document.createElement("div");
-        holder.style.position="absolute"; holder.style.left="-9999px"; $offscreen.appendChild(holder);
-        new QRCode(holder, { text:url, width:size, height:size, correctLevel: QRCode.CorrectLevel.Q });
-        setTimeout(()=>{
-          const cv = holder.querySelector("canvas");
-          const dataURL = cv ? cv.toDataURL("image/png") : null;
-          holder.remove();
-          resolve(dataURL);
-        }, 60);
       });
-    }
-
-    async function renderPairToCanvas(cardA, cardB){
-      const SHEET_W = 1772, SHEET_H = 1181, HALF_H = Math.floor(SHEET_H/2);
-      const RIGHT_W = Math.round(SHEET_W * 0.20), LEFT_W = SHEET_W - RIGHT_W;
-
-      const canvas = document.createElement("canvas");
-      canvas.width = SHEET_W; canvas.height = SHEET_H;
-      const ctx = canvas.getContext("2d");
-      ctx.fillStyle="#ffffff"; ctx.fillRect(0,0,SHEET_W,SHEET_H);
-
-      const cards=[cardA, cardB];
-      for(let i=0;i<2;i++){
-        const holder = cards[i].closest(".card-holder");
-        const card = cards[i];
-        const y0 = i===0 ? 0 : HALF_H;
-
-        // moldura
-        //ctx.strokeStyle="#e5e9f2";
-        //ctx.lineWidth=2;
-        //ctx.strokeRect(8, y0+8, SHEET_W-16, HALF_H-16);
-
-        const product   = card.getAttribute("data-product") || holder.querySelector("[data-title]")?.textContent || "Produto";
-        const tlHTML    = getBlockHTML(card, 'tl') || product;
-        const blHTML    = getBlockHTML(card, 'bl') || "";
-        const url       = holder.querySelector("[data-link]")?.textContent || "";
-
-        // Esquerda (texto)
-        drawRichCentered(ctx, tlHTML,  12, y0+12, LEFT_W-24, (HALF_H/2)-24, 60, "MarcellusLocal, Marcellus, serif");
-        drawRichCentered(ctx, blHTML,  12, y0+(HALF_H/2)+12, LEFT_W-24, (HALF_H/2)-24, 48, "MarcellusLocal, Marcellus, serif");
-
-        // Direita topo: LOGO
-        const logoImg = new Image(); logoImg.crossOrigin="anonymous"; logoImg.src = LOGO_URL;
-        await new Promise(res=>{ logoImg.onload=res; logoImg.onerror=res; });
-        const logoBoxW=RIGHT_W-24, logoBoxH=(HALF_H/2)-24;
-        let lw = logoImg.naturalWidth||800, lh = logoImg.naturalHeight||300;
-        const lr = Math.min(logoBoxW/lw, logoBoxH/lh);
-        lw=Math.floor(lw*lr); lh=Math.floor(lh*lr);
-        ctx.drawImage(logoImg, LEFT_W + (RIGHT_W-lw)/2, y0+12 + (logoBoxH-lh)/2, lw, lh);
-
-        // Direita baixo: QR
-        const qrData = await makeQRDataURL(url, Math.min(RIGHT_W-24, (HALF_H/2)-24));
-        if(qrData){
-          const qrImg = new Image(); qrImg.src = qrData;
-          await new Promise(res=>{ qrImg.onload=res; qrImg.onerror=res; });
-          const qbW=RIGHT_W-24, qbH=(HALF_H/2)-24;
-          const qSize = Math.floor(Math.min(qbW, qbH));
-          ctx.drawImage(qrImg, LEFT_W + (RIGHT_W-qSize)/2, y0+(HALF_H/2)+12 + (qbH-qSize)/2, qSize, qSize);
-        }
-      }
-      return canvas;
-    }
-
-    function downloadDataURL(dataURL, name){
-      const a=document.createElement("a"); a.href=dataURL; a.download=name;
-      document.body.appendChild(a); a.click(); a.remove();
-    }
-
-    async function exportPairs(as="png"){
-      const cards = qsa(".card", $catalog);
-      if(cards.length===0){ setStatus("Sem cartões.", false); return; }
-
-      // Garante links prontos
-      if(!($aff.value||"").trim()){ $aff.value="affiliate_demo"; regen(); }
-
-      const pairs=[];
-      for(let i=0;i<cards.length;i+=2){
-        const a=cards[i];
-        const b=cards[i+1] || cards[i];
-        pairs.push([a,b]);
-      }
-
-      if(as==="pdf"){
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF({ orientation:"landscape", unit:"mm", format:[150,100] });
-        for(let p=0;p<pairs.length;p++){
-          if(p>0) pdf.addPage();
-          const canvas = await renderPairToCanvas(pairs[p][0], pairs[p][1]);
-          const data = canvas.toDataURL("image/png", 1.0);
-          pdf.addImage(data, "PNG", 0, 0, 150, 100);
-        }
-        pdf.save("prontuarios-10x15.pdf");
-        setStatus("✅ PDF 10×15 gerado.", true);
-      }else{
-        for(let p=0;p<pairs.length;p++){
-          const canvas = await renderPairToCanvas(pairs[p][0], pairs[p][1]);
-          const data = canvas.toDataURL("image/png", 1.0);
-          downloadDataURL(data, `prontuarios-10x15-${p+1}.png`);
-        }
-        setStatus("✅ PNG(s) 10×15 gerado(s).", true);
-      }
-    }
-
-    // ====== ARRANQUE ======
-    document.getElementById("btnExportPNG").addEventListener("click", ()=>exportPairs("png"));
-    document.getElementById("btnExportPDF").addEventListener("click", ()=>exportPairs("pdf"));
-    $btnUpdate.addEventListener("click", regen);
-
-    // preencher conteúdos iniciais e QRs
-    $aff.value = loadAff();
-    window.addEventListener("load", ()=>{
-      if(!$aff.value){ $aff.value="affiliate_demo"; }
-      regen();
-      handleLanding();
+      // Simple ROAS KPI (synthetic)
+      const roas = (3.1 + (data[data.length-1]/100)).toFixed(2);
+      document.getElementById('kpi-roas').textContent = 'ROAS ×' + roas;
     });
-  })();
   </script>
+
+  <!-- Cal floating-popup embed code begins -->
+  <script type="text/javascript">
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", "15min", {origin:"https://app.cal.com"});
+
+    Cal.ns["15min"]("floatingButton", {"calLink":"neuralogica/15min","config":{"layout":"week_view"},"buttonText":"Marcar uma Reunião Rápida"}); 
+    Cal.ns["15min"]("ui", {"hideEventTypeDetails":false,"layout":"week_view"});
+  </script>
+  <!-- Cal floating-popup embed code ends -->
 </body>
 </html>
-
