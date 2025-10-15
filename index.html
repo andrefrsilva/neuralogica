@@ -1,350 +1,242 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NEURALOGICA — Resultados. Sem Bullshit.</title>
+  <meta name="description" content="NEURALOGICA: gestão de redes sociais, conteúdos, anúncios pagos e análise. Equipa de criativos, psicologia e neurociência. Lisboa → Mundo.">
+  <meta name="theme-color" content="#000000">
 
-  <title>NEURALOGICA — Social, Conteúdo, Anúncios. Sem Bullshit.</title>
-  <meta name="description" content="NEURALOGICA: gestão de redes sociais, conteúdo premium, anúncios pagos (Meta, TikTok, Google), analytics e criativo com fundamento em psicologia e neurociência. Resultados, não ruído." />
-  <meta name="theme-color" content="#000000" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="NEURALOGICA — Resultados. Sem Bullshit.">
+  <meta property="og:description" content="Conteúdos, anúncios e análise com cérebro. Humor, rigor e resultados.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png">
+  <meta property="og:locale" content="pt_PT">
 
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="NEURALOGICA — Resultados. Sem Bullshit." />
-  <meta property="og:description" content="Gestão de social, conteúdo, ads e analytics com base em psicologia e neurociência. Lisboa, Portugal → mundo." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png" />
-  <meta property="og:locale" content="pt_PT" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png" />
+  <!-- Favicon (emoji pequeno no separador) -->
+  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🧠</text></svg>'>
 
-  <!-- Favicon (emoji brain) -->
-  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🧠</text></svg>' />
+  <!-- App icon -->
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png">
 
-  <!-- App icons -->
-  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png" />
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png" />
-
-  <!-- (Optional) Minimal manifest just to carry an icon -->
+  <!-- Manifest mínimo -->
   <link rel="manifest" href='data:application/manifest+json,{"name":"NEURALOGICA","short_name":"NEURALOGICA","start_url":"/","display":"standalone","background_color":"#000000","theme_color":"#000000","icons":[{"src":"https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png","sizes":"512x512","type":"image/png"}]}'>
 
-  <!-- Fonts -->
+  <!-- Fonte (Manrope) carregada corretamente; nada de Roboto -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Chart.js for live chart -->
+  <!-- Chart.js leve -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
 
   <style>
     :root{
-      --bg:#0b0b0b;
-      --ink:#ffffff;
-      --muted:#9a9a9a;
-      --line:#1b1b1b;
-      --accent:#ffffff; /* subtle white-on-black theme */
-      --radius:18px;
-      --max:1200px;
-      --shadow:0 30px 80px rgba(0,0,0,.35);
+      --bg:#0b0b0b; --ink:#fff; --muted:#bdbdbd; --line:#1a1a1a;
+      --radius:18px; --max:1100px; --shadow:0 30px 80px rgba(0,0,0,.35);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:"Manrope",system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      color:var(--ink);
-      background:var(--bg);
-      line-height:1.45;
-      -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
-    }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0; font-family:"Manrope",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--bg); -webkit-font-smoothing:antialiased}
     a{color:var(--ink); text-decoration:none}
-    img{max-width:100%; display:block}
-    .container{width:100%; max-width:var(--max); margin:0 auto; padding:0 18px}
-    .grid{display:grid; gap:18px}
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      border:1px solid #fff; color:#000; background:#fff;
-      padding:12px 18px; border-radius:999px; font-weight:700;
-      transition:transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
-    }
-    .btn.ghost{background:transparent; color:#fff; border-color:#2a2a2a}
-    .btn:hover{transform:translateY(-2px); box-shadow:0 10px 30px rgba(255,255,255,.08)}
-    .tag{display:inline-block; border:1px solid #2a2a2a; padding:6px 10px; border-radius:999px; color:#dcdcdc; font-size:.78rem; letter-spacing:.02em}
-    /* Header */
-    header{
-      position:fixed; inset:0 0 auto 0; height:64px; display:flex; align-items:center;
-      background:rgba(10,10,10,.55); backdrop-filter: blur(10px);
-      border-bottom:1px solid rgba(255,255,255,.06);
-      z-index:40;
-    }
-    header .inner{display:flex; align-items:center; justify-content:space-between}
-    .brand{display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.08em}
+    .container{max-width:var(--max); margin:0 auto; padding:0 18px}
+    .tag{display:inline-block; border:1px solid #2a2a2a; padding:6px 10px; border-radius:999px; color:#e3e3e3; font-size:.78rem}
+
+    header{position:fixed; top:0; left:0; right:0; height:60px; display:flex; align-items:center; z-index:40;
+      background:rgba(10,10,10,.55); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,.06)}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.06em}
     .brand img{width:34px; height:34px; border-radius:50%; filter:grayscale(100%) contrast(110%)}
-    nav a{opacity:.85; margin-left:14px; font-weight:600}
-    nav a:hover{opacity:1}
-    /* Hero */
-    .hero{
-      position:relative; min-height:100svh; display:grid; place-items:center; overflow:hidden;
-      border-bottom:1px solid var(--line);
-    }
-    .hero video{
-      position:absolute; inset:0; width:100%; height:100%;
-      object-fit:cover; filter:grayscale(100%) contrast(110%) brightness(.7);
-    }
-    .hero::after{/* subtle vignette */
-      content:""; position:absolute; inset:0; background:radial-gradient(75% 60% at 50% 40%, rgba(0,0,0,.1) 0, rgba(0,0,0,.8) 100%);
-      pointer-events:none;
-    }
-    .hero .content{
-      position:relative; z-index:2; text-align:center; padding:90px 18px 70px;
-    }
-    .headline{
-      font-weight:800; letter-spacing:-.02em; line-height:1.05;
-      font-size: clamp(2.2rem, 4.8vw, 4.4rem);
-    }
-    .sub{color:#d8d8d8; max-width:740px; margin:14px auto 28px; font-size: clamp(1rem, 2.4vw, 1.15rem)}
-    .row{display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
-    /* Cards */
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-      border:1px solid rgba(255,255,255,.06); border-radius:var(--radius);
-      padding:18px; box-shadow:var(--shadow);
-    }
-    .card h3{margin:0 0 6px 0; font-size:1.1rem}
-    .muted{color:var(--muted)}
-    section{padding:70px 0; border-bottom:1px solid var(--line)}
-    section h2{
-      font-size: clamp(1.6rem, 3.6vw, 2.2rem); margin:0 0 14px 0; letter-spacing:.01em;
-    }
-    .lead{color:#d0d0d0; margin:0 0 22px 0; max-width:820px}
+
+    /* HERO */
+    .hero{position:relative; min-height:100svh; display:grid; place-items:center; overflow:hidden; border-bottom:1px solid var(--line)}
+    .hero video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:grayscale(100%) contrast(110%) brightness(.7)}
+    .hero::after{content:""; position:absolute; inset:0; background:radial-gradient(75% 60% at 50% 40%, rgba(0,0,0,.1) 0, rgba(0,0,0,.85) 100%)}
+    .content{position:relative; z-index:2; text-align:center; padding:90px 18px 70px}
+    h1{font-size:clamp(2.1rem,4.8vw,4.2rem); line-height:1.05; margin:0 0 10px 0; font-weight:800; letter-spacing:-.02em}
+    .sub{color:#d8d8d8; max-width:740px; margin:10px auto 0; font-size:clamp(1rem,2.4vw,1.15rem)}
+    .controls{position:absolute; right:14px; bottom:14px; z-index:3; display:flex; gap:8px}
+    .btn{border:1px solid #fff; color:#000; background:#fff; padding:8px 12px; border-radius:999px; font-weight:700}
+    .btn.ghost{background:transparent; color:#fff; border-color:#2a2a2a}
+
+    section{padding:64px 0; border-bottom:1px solid var(--line)}
+    h2{font-size:clamp(1.6rem,3.5vw,2.2rem); margin:0 0 10px 0}
+    .lead{color:#d0d0d0; margin:0 0 18px 0; max-width:820px}
+    .grid{display:grid; gap:16px}
+    .cols-2{grid-template-columns:1fr}
+    .cols-3{grid-template-columns:1fr}
+    @media(min-width:900px){.cols-2{grid-template-columns:1.1fr .9fr}.cols-3{grid-template-columns:repeat(3,1fr)}}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.06); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow)}
+    .card h3{margin:0 0 6px 0; font-size:1.05rem}
     ul.clean{list-style:none; padding:0; margin:0}
-    ul.clean li{padding:12px 0; border-bottom:1px dashed rgba(255,255,255,.08)}
-    .kpi{display:flex; gap:12px; align-items:center}
-    .kpi span{font-weight:800; font-size:1.4rem}
-    /* Knowledge tiles */
-    .tile{
-      border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px; background:rgba(255,255,255,.02)
-    }
-    .tile h4{margin:0 0 8px 0}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size:.85rem; color:#cfcfcf}
-    /* Team */
-    .team{grid-template-columns:repeat(auto-fit, minmax(220px,1fr))}
-    .person{padding:16px; border:1px solid rgba(255,255,255,.06); border-radius:14px; background:rgba(255,255,255,.02)}
-    .person h5{margin:8px 0 2px 0; font-size:1rem}
-    .person .role{color:#bdbdbd; font-size:.9rem}
-    /* Footer */
-    footer{padding:30px 0; color:#bdbdbd; font-size:.92rem}
-    footer a{color:#bdbdbd; text-decoration:underline dotted}
-    /* Reveal on scroll */
-    .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease}
+    ul.clean li{padding:10px 0; border-bottom:1px dashed rgba(255,255,255,.08)}
+    .muted{color:var(--muted)}
+
+    /* Logo badge grande */
+    .badge{display:flex; align-items:center; justify-content:center; gap:14px; margin-top:20px}
+    .badge img{width:84px; height:84px; border-radius:50%; border:2px solid rgba(255,255,255,.2); background:#111; padding:6px; filter:grayscale(100%) contrast(110%)}
+
+    /* Reveal (suave, sem bugs de altura) */
+    .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease}
     .reveal.visible{opacity:1; transform:none}
-    /* Cookie bar & modals */
-    .cookiebar{
-      position:fixed; left:12px; right:12px; bottom:12px; background:#0f0f0f; color:#eaeaea;
-      border:1px solid #2a2a2a; border-radius:14px; padding:14px; z-index:50; box-shadow: var(--shadow);
-      display:none;
-    }
-    .cookiebar .links a{text-decoration:underline; color:#eaeaea}
-    .modal{
-      position:fixed; inset:0; background:rgba(0,0,0,.75); display:none; align-items:center; justify-content:center; z-index:60;
-    }
-    .modal .box{
-      max-width:800px; margin:18px; background:#0f0f0f; border:1px solid #2a2a2a; border-radius:16px; padding:18px 18px 12px;
-    }
-    .modal h3{margin:0 0 8px 0}
+
+    /* Gráfico: tamanho controlado */
+    .chartWrap{max-width:100%; height:180px; padding:10px; border:1px solid rgba(255,255,255,.06); border-radius:16px; background:rgba(255,255,255,.03)}
+    canvas{max-height:160px}
+
+    /* KPI simples (contadores) */
+    .kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:10px 0}
+    .kpi{border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:12px; text-align:center; background:rgba(255,255,255,.02)}
+    .kpi b{font-size:1.3rem}
+
+    /* Equipa */
+    .team{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+    .person{padding:16px; border:1px solid rgba(255,255,255,.06); border-radius:14px; background:rgba(255,255,255,.02)}
+    .person h5{margin:6px 0 2px 0; font-size:1rem}
+    .person .role{color:#cfcfcf; font-size:.92rem}
+
+    /* Cookie bar (canto oposto ao Cal: bottom-left) */
+    .cookiebar{position:fixed; left:12px; bottom:12px; right:auto; background:#0f0f0f; color:#eaeaea;
+      border:1px solid #2a2a2a; border-radius:14px; padding:12px; z-index:50; display:none; box-shadow:var(--shadow)}
+    .cookiebar .links a{color:#eaeaea; text-decoration:underline}
+
+    /* Modais */
+    .modal{position:fixed; inset:0; background:rgba(0,0,0,.75); display:none; align-items:center; justify-content:center; z-index:60}
+    .modal .box{max-width:800px; margin:18px; background:#0f0f0f; border:1px solid #2a2a2a; border-radius:16px; padding:18px}
     .close{float:right; font-weight:800; cursor:pointer; opacity:.7}
-    /* Responsive tweaks */
-    @media(min-width:900px){
-      .cols-2{display:grid; grid-template-columns:1.1fr .9fr; gap:22px}
-      .cols-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
-      .hero .content{padding-top:120px}
-    }
+
+    footer{padding:28px 0; color:#bdbdbd; font-size:.92rem}
+    footer a{color:#bdbdbd; text-decoration:underline dotted}
   </style>
 </head>
-
 <body>
+  <!-- Header simples (sem menu para não estragar no mobile) -->
   <header>
-    <div class="container inner">
-      <div class="brand">
-        <img alt="NEURALOGICA" src="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png" />
-        <span>NEURALOGICA</span>
-      </div>
-      <nav aria-label="Primary">
-        <a href="#dores">Dores</a>
-        <a href="#solucao">Solução</a>
-        <a href="#provas">Resultados</a>
-        <a href="#conhecimento">Conhecimento</a>
-        <a href="#equipa">Equipa</a>
-      </nav>
+    <div class="container brand">
+      <img alt="NEURALOGICA" src="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png">
+      <span>NEURALOGICA</span>
     </div>
   </header>
 
   <!-- HERO -->
   <section class="hero" id="topo" aria-label="Abertura">
-    <video src="https://github.com/andrefrsilva/neuralogica/raw/refs/heads/main/M%C3%BAsica%20de%20Campanha%20-%20Esperan%C3%A7a.mp4"
+    <video id="bgvid"
+      src="https://github.com/andrefrsilva/neuralogica/raw/refs/heads/main/M%C3%BAsica%20de%20Campanha%20-%20Esperan%C3%A7a.mp4"
       autoplay muted loop playsinline preload="auto"></video>
 
     <div class="content container">
-      <div class="row" style="margin-bottom:14px;">
-        <span class="tag">Lisboa → Mundo</span>
-        <span class="tag">Psicologia & Neurociência</span>
-        <span class="tag">Conteúdo • Social • Ads</span>
+      <div class="tag">Lisboa → Mundo</div>
+      <div class="tag">Psicologia & Neurociência</div>
+      <div class="tag">Conteúdos • Social • Ads</div>
+
+      <h1>Resultados. Sem Bullshit.<br> Equipa de criativos com mente científica.</h1>
+      <p class="sub">Fazemos conteúdos, anúncios e análise que geram vendas. Humor quando ajuda. Rigor sempre.</p>
+
+      <div class="badge">
+        <img alt="NEURALOGICA badge" src="https://raw.githubusercontent.com/andrefrsilva/neuralogica/refs/heads/main/neuralogica_logo_trim.png">
+        <span class="muted">NEURALOGICA</span>
       </div>
-      <h1 class="headline">Resultados. Sem Bullshit.<br/> Criativo com mente científica.</h1>
-      <p class="sub">Gestão de redes, conteúdo premium (vídeo, foto, música, voz-off), e anúncios (Meta, TikTok, Google). Medimos o que interessa: receita, CAC, ROAS. Vocês ganham; nós ganhamos.</p>
-      <div class="row">
-        <a class="btn" href="#dores">Ver se isto é para mim</a>
-        <a class="btn ghost" href="#solucao">O que fazemos</a>
-      </div>
+    </div>
+
+    <!-- Controlo de Vídeo -->
+    <div class="controls">
+      <button class="btn ghost" id="togglePlay" aria-label="Pausar vídeo">Pausar</button>
+      <button class="btn" id="toggleSound" aria-label="Ativar som">Som: Off</button>
     </div>
   </section>
 
   <!-- DORES -->
   <section id="dores" class="reveal">
     <div class="container">
-      <h2>Dores que vemos todos os dias</h2>
-      <p class="lead">Se estas linhas doem, é porque já estivemos aí. Trabalhamos para resolver — não para entreter.</p>
-
+      <h2>Dores (se é isto, falamos a mesma língua)</h2>
+      <p class="lead">Sem rodeios: calendários não vendem. Vende quem entende pessoas e deixa a equipa trabalhar.</p>
       <div class="grid cols-3">
         <div class="card">
-          <h3>Estratégia</h3>
+          <h3>Plano</h3>
           <ul class="clean">
-            <li>Calendário de posts ≠ estratégia.</li>
-            <li>Mensagem muda consoante quem escreveu.</li>
-            <li>Sem persona, sem proposta de valor clara.</li>
-            <li>Objetivos por funil? Só no papel.</li>
-            <li>Promessas que chumbam políticas de ads.</li>
+            <li>Publicações ao calhas, sem objetivo.</li>
+            <li>Voz da marca muda todos os dias.</li>
+            <li>Proposta de valor não está clara.</li>
+            <li>Promessas que os anúncios chumbam.</li>
+            <li>Perde-se tempo com aprovações infinitas.</li>
           </ul>
         </div>
         <div class="card">
-          <h3>Criativo</h3>
+          <h3>Conteúdos</h3>
           <ul class="clean">
             <li>Templates iguais a toda a gente.</li>
-            <li>Vídeos sem guião, sem hook, sem CTA.</li>
-            <li>Stock cliché; zero UGC com clientes.</li>
-            <li>Erros de copy; PT-PT vs PT-BR aleatório.</li>
-            <li>Fadiga criativa: CTR desce, frequência sobe.</li>
+            <li>Vídeos sem início forte nem chamada à ação.</li>
+            <li>Fotos fracas; zero depoimentos reais.</li>
+            <li>Texto com erros e clichés.</li>
+            <li>Resultados a cair, gasto a subir.</li>
           </ul>
         </div>
         <div class="card">
-          <h3>Paid & Dados</h3>
+          <h3>Anúncios & Dados</h3>
           <ul class="clean">
-            <li>“Boost post” a substituir campanhas.</li>
-            <li>Pixel/GA4 sem eventos; compras = page view.</li>
-            <li>Sem testes A/B; decisões por “gosto”.</li>
-            <li>Bloqueios de conta e ninguém com playbook.</li>
-            <li>Relatórios de vaidade: likes & alcance.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="grid cols-3" style="margin-top:18px">
-        <div class="card">
-          <h3>Operação</h3>
-          <ul class="clean">
-            <li>Dependência de “mandem fotos” → nunca chegam.</li>
-            <li>Aprovações lentas; perde-se o timing.</li>
-            <li>Horários errados; feriados ignorados.</li>
-            <li>Trocas constantes de account.</li>
-            <li>Suporte reativo, não proativo.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Negócio</h3>
-          <ul class="clean">
-            <li>Sem ligação a CRM ou WhatsApp Business.</li>
-            <li>Sem atribuição; topo do funil é cortado.</li>
-            <li>Checkout lento; sem MBWay/Ref. Multibanco.</li>
-            <li>RGPD por cumprir (consent/cookies).</li>
-            <li>Prova social subaproveitada.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Portugalidade</h3>
-          <ul class="clean">
-            <li>Portes/Açores & Madeira sem comunicação clara.</li>
-            <li>Tom cultural “importado” que não cola.</li>
-            <li>Integração de faturação que atrasa a operação.</li>
-            <li>Equipa sem autonomia → micromanagement.</li>
-            <li>Ticket baixo, expectativa alta, zero foco.</li>
+            <li>“Promover publicação” em vez de campanha a sério.</li>
+            <li>Medição incompleta; compras não contam.</li>
+            <li>Sem testes; decide-se por “gosto”.</li>
+            <li>Relatórios cheios de likes; vazios de vendas.</li>
+            <li>Conta bloqueada e ninguém sabe resolver.</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SOLUÇÃO / PACOTE -->
+  <!-- SOLUÇÃO -->
   <section id="solucao" class="reveal">
     <div class="container">
-      <h2>O que fazemos (e como medimos)</h2>
-      <p class="lead">Pacote completo: operação sem fricção + criativo de topo + paid media com ciência aplicada. Vocês não perdem tempo; ganham vendas.</p>
+      <h2>Como trabalhamos</h2>
+      <p class="lead">Operamos de ponta a ponta. Vocês não perdem tempo; veem o resultado.</p>
 
       <div class="grid cols-3">
         <div class="card">
-          <h3>Gestão de Social</h3>
+          <h3>Redes</h3>
           <ul class="clean">
-            <li>Planeamento editorial com funil (TOFU/MOFU/BOFU).</li>
-            <li>Resposta a comentários e DMs (SLA acordado).</li>
-            <li>UGC guiado (scripts simples + edição).</li>
-            <li>Calendário aprovado em ferramenta partilhada.</li>
-            <li>Reporting mensal de negócio (não vaidade).</li>
+            <li>Planeamento por objetivo (atrair, considerar, comprar).</li>
+            <li>Respondemos a comentários e mensagens.</li>
+            <li>Calendário simples partilhado.</li>
+            <li>Relatório curto com números que contam.</li>
           </ul>
         </div>
         <div class="card">
-          <h3>Criação de Conteúdo</h3>
+          <h3>Conteúdos</h3>
           <ul class="clean">
-            <li>Vídeo vertical & carrosséis de alta performance.</li>
+            <li>Vídeo vertical, carrosséis, guião claro.</li>
             <li>Fotografia e imagem editorial.</li>
-            <li>Música personalizada & voice-over profissional.</li>
-            <li>Copywriting com humor e prova.</li>
-            <li>Design minimalista premium (B&W first).</li>
+            <li>Música feita para a marca; voice-over profissional.</li>
+            <li>Texto com humor, clareza e prova.</li>
           </ul>
         </div>
         <div class="card">
-          <h3>Ads & Analytics</h3>
+          <h3>Anúncios</h3>
           <ul class="clean">
-            <li>Meta, Instagram, TikTok, Google (Search/PMAX/YouTube).</li>
-            <li>Estrutura por objetivos; testes A/B contínuos.</li>
-            <li>Pixel/GA4/Consent Mode, eventos e CRM.</li>
-            <li>Landing pages no-code, rápidas e focadas.</li>
-            <li>Dash de CAC, ROAS, LTV e cohorts.</li>
+            <li>Meta, Instagram, TikTok, Google.</li>
+            <li>Testes simples e decisões rápidas.</li>
+            <li>Medição correta (site e loja).</li>
+            <li>Landing direta: promessa, prova, botão.</li>
           </ul>
         </div>
-      </div>
-
-      <div class="row" style="margin-top:16px">
-        <a class="btn" href="#provas">Ver provas</a>
-        <a class="btn ghost" href="#equipa">Conhecer a equipa</a>
       </div>
     </div>
   </section>
 
-  <!-- RESULTADOS / PROVAS -->
+  <!-- RESULTADOS -->
   <section id="provas" class="reveal">
-    <div class="container cols-2">
-      <div>
-        <h2>Temos provas dadas</h2>
-        <p class="lead">Evolução (fictícia mas realista) de % aumento de vendas atribuídas a ads entre Janeiro e Setembro de 2025. Não prometemos milagres; prometemos método.</p>
+    <div class="container">
+      <h2>Temos provas</h2>
+      <p class="lead">Valores de exemplo (realistas) — evolução de vendas atribuídas a campanhas em 2025.</p>
 
-        <div class="kpi">
-          <span id="kpi-roas">ROAS ×—</span>
-          <span class="muted">Média 90 dias • Atualiza ao carregar</span>
-        </div>
-        <canvas id="growth" height="220" style="margin-top:10px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); border-radius:16px;"></canvas>
+      <div class="kpis">
+        <div class="kpi"><div>Vendas ↑</div><b id="kpiVendas">0%</b></div>
+        <div class="kpi"><div>Custo por lead ↓</div><b id="kpiCPL">0%</b></div>
+        <div class="kpi"><div>ROAS</div><b id="kpiROAS">×0.0</b></div>
       </div>
 
-      <div class="card">
-        <h3>Como medimos sucesso</h3>
-        <ul class="clean">
-          <li>CPL, CAC, ROAS e Receita incremental (não “likes”).</li>
-          <li>Experimentos com hipótese, tamanho mínimo e critério de paragem.</li>
-          <li>Modelos de atribuição + janelas por canal.</li>
-          <li>Reunião mensal curta: decisões, não “report show”.</li>
-          <li>Vocês ganham → nós escalamos com vocês.</li>
-        </ul>
-        <div style="margin-top:12px">
-          <a class="btn" href="#contacto">Quero este rigor</a>
-        </div>
+      <div class="chartWrap">
+        <canvas id="growth"></canvas>
       </div>
     </div>
   </section>
@@ -352,34 +244,15 @@
   <!-- CONHECIMENTO -->
   <section id="conhecimento" class="reveal">
     <div class="container">
-      <h2>Conhecimento aplicado: neuro + psicologia</h2>
-      <p class="lead">Não é “neuro-bla-bla”. É ciência com utilidade prática para conteúdo e anúncios — com ética.</p>
-
+      <h2>Conhecimento que ajuda a vender</h2>
+      <p class="lead">Psicologia e neurociência em linguagem simples. Aplicação prática aos vossos conteúdos e anúncios.</p>
       <div class="grid cols-3">
-        <div class="tile">
-          <h4>Dopamina</h4>
-          <p class="muted">Motivação/novidade. <span class="mono">Aplicação:</span> hooks visuais em 2s, progress bars, séries (“Episódio 1/5”).</p>
-        </div>
-        <div class="tile">
-          <h4>Serotonina</h4>
-          <p class="muted">Confiança/status. <span class="mono">Aplicação:</span> prova social, selos, antes/depois auditável.</p>
-        </div>
-        <div class="tile">
-          <h4>Oxitocina</h4>
-          <p class="muted">Vínculo/empatia. <span class="mono">Aplicação:</span> histórias de cliente, rosto+voz verdadeira.</p>
-        </div>
-        <div class="tile">
-          <h4>Noradrenalina</h4>
-          <p class="muted">Atenção/alerta. <span class="mono">Aplicação:</span> contraste B&W, ritmo de edição, pausas intencionais.</p>
-        </div>
-        <div class="tile">
-          <h4>Acetilcolina</h4>
-          <p class="muted">Foco/aprendizagem. <span class="mono">Aplicação:</span> mini-aulas úteis (15–30s) com CTA para guia.</p>
-        </div>
-        <div class="tile">
-          <h4>GABA</h4>
-          <p class="muted">Calma/segurança. <span class="mono">Aplicação:</span> landing limpa, passos simples, políticas claras.</p>
-        </div>
+        <div class="card"><h3>Dopamina</h3><p class="muted">Novidade motiva. Usamos aberturas fortes e séries (“Parte 1 de 5”).</p></div>
+        <div class="card"><h3>Serotonina</h3><p class="muted">Confiança vende. Mostramos prova real e reconhecimento.</p></div>
+        <div class="card"><h3>Oxitocina</h3><p class="muted">Histórias aproximam. Damos rosto e voz a clientes.</p></div>
+        <div class="card"><h3>Noradrenalina</h3><p class="muted">Atenção precisa de contraste. Ritmo certo e preto-no-branco.</p></div>
+        <div class="card"><h3>Acetilcolina</h3><p class="muted">Ensinar rápido fideliza. Mini-aulas úteis e simples.</p></div>
+        <div class="card"><h3>GABA</h3><p class="muted">Tranquilidade fecha. Página clara, passos poucos.</p></div>
       </div>
     </div>
   </section>
@@ -387,14 +260,14 @@
   <!-- DIFERENCIAÇÃO -->
   <section id="vantagens" class="reveal">
     <div class="container">
-      <h2>Porque somos diferentes</h2>
+      <h2>Porque escolher a NEURALOGICA</h2>
       <div class="grid cols-3">
-        <div class="card"><h3>Autonomia</h3><p class="muted">Não precisamos de micromanagement. Brief claro → execução.</p></div>
-        <div class="card"><h3>Obcecados por resultado</h3><p class="muted">Falamos receita, CAC e margem. Só isso interessa.</p></div>
-        <div class="card"><h3>No-Bullshit</h3><p class="muted">Sem truques, sem promessas vazias, sem apresentações infinitas.</p></div>
-        <div class="card"><h3>Humor com timing</h3><p class="muted">Marca humana vende. Fazemos rir sem perder rigor.</p></div>
-        <div class="card"><h3>Playbooks</h3><p class="muted">Políticas de anúncios, bloqueios, UGC, crises — tudo documentado.</p></div>
-        <div class="card"><h3>Propriedade vossa</h3><p class="muted">BM, Pixels, GA4 e domínios ficam no vosso nome. Sempre.</p></div>
+        <div class="card"><h3>Autonomia</h3><p class="muted">Sem micromanagement. Brief claro → entregamos.</p></div>
+        <div class="card"><h3>Resultado</h3><p class="muted">Queremos ver mais dinheiro a entrar. Ponto.</p></div>
+        <div class="card"><h3>No-bullshit</h3><p class="muted">Sem promessas vazias. Trabalho sério.</p></div>
+        <div class="card"><h3>Humor</h3><p class="muted">Quando ajuda a vender, usamos. Quando não, não.</p></div>
+        <div class="card"><h3>Playbooks</h3><p class="muted">Anúncios rejeitados, UGC, crise — sabemos o que fazer.</p></div>
+        <div class="card"><h3>Propriedade vossa</h3><p class="muted">Contas e dados ficam no vosso nome.</p></div>
       </div>
     </div>
   </section>
@@ -402,173 +275,121 @@
   <!-- EQUIPA -->
   <section id="equipa" class="reveal">
     <div class="container">
-      <h2>Equipa híbrida: indústria × academia × artes</h2>
+      <h2>Equipa (criativos, dados e cérebro)</h2>
       <div class="grid team">
-        <div class="person">
-          <h5>Inês Moreira</h5><div class="role">Psicóloga & Head of Behavioral Strategy</div>
-          <p class="muted">Modelos de decisão, arquétipos e testes qualitativos rápidos.</p>
-        </div>
-        <div class="person">
-          <h5>Tiago Duarte</h5><div class="role">Neurocientista Aplicado</div>
-          <p class="muted">Insights neuro → guião e criativo que ativa atenção e memória.</p>
-        </div>
-        <div class="person">
-          <h5>Ricardo Fonseca</h5><div class="role">Data & Attribution Lead</div>
-          <p class="muted">GA4, MMM leve, ROAS real e dashboards que importam.</p>
-        </div>
-        <div class="person">
-          <h5>Sara Pereira</h5><div class="role">Fotógrafa & Direção de Imagem</div>
-          <p class="muted">Estética editorial preto-&-branco com propósito.</p>
-        </div>
-        <div class="person">
-          <h5>Joana Faria</h5><div class="role">Jornalista & Copy Lead</div>
-          <p class="muted">Storytelling com prova, humor e clareza.</p>
-        </div>
-        <div class="person">
-          <h5>André Lemos</h5><div class="role">Engineering & Marketing Ops</div>
-          <p class="muted">Landing pages, integrações, automações e QA técnico.</p>
-        </div>
+        <div class="person"><h5>Inês Moreira</h5><div class="role">Psicóloga — Estratégia de Comportamento</div></div>
+        <div class="person"><h5>Tiago Duarte</h5><div class="role">Neurocientista — Atenção & Memória</div></div>
+        <div class="person"><h5>Ricardo Fonseca</h5><div class="role">Dados — Medição simples e certa</div></div>
+        <div class="person"><h5>Sara Pereira</h5><div class="role">Fotógrafa — Direção de Imagem</div></div>
+        <div class="person"><h5>Joana Faria</h5><div class="role">Jornalista — Texto com prova</div></div>
+        <div class="person"><h5>André Lemos</h5><div class="role">Tecnologia — Páginas e ligações</div></div>
+        <div class="person"><h5>Rui Almeida</h5><div class="role">Realizador — Vídeo curto que prende</div></div>
+        <div class="person"><h5>Mafalda Correia</h5><div class="role">Produtora — Organização sem falhas</div></div>
+        <div class="person"><h5>Beatriz Santos</h5><div class="role">Gestão de Comunidade — Resposta rápida</div></div>
+        <div class="person"><h5>Pedro Nogueira</h5><div class="role">Músico — Peças sonoras da marca</div></div>
+        <div class="person"><h5>Catarina Luz</h5><div class="role">Design — Preto-e-branco com classe</div></div>
+        <div class="person"><h5>Hugo Matos</h5><div class="role">Anúncios — Meta/TikTok/Google</div></div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACTO / CTA -->
-  <section id="contacto" class="reveal">
-    <div class="container">
-      <h2>Marcar conversa</h2>
-      <p class="lead">15 minutos para percebermos dores, objetivos e próximos passos. Se não houver “fit”, dizemo-lo sem rodeios.</p>
-      <a class="btn" href="https://cal.com/neuralogica/15min" target="_blank" rel="noopener">Abrir agenda</a>
-      <a class="btn ghost" href="#topo">Voltar ao topo</a>
-    </div>
-  </section>
-
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer>
-    <div class="container">
-      © <span id="year"></span> NEURALOGICA — Lisboa, Portugal. Todos os direitos reservados.
-    </div>
+    <div class="container">© <span id="year"></span> NEURALOGICA — Lisboa, Portugal. Todos os direitos reservados.</div>
   </footer>
 
-  <!-- Cookie bar -->
-  <div class="cookiebar" id="cookiebar" role="dialog" aria-live="polite" aria-label="Consentimento de cookies">
-    <div style="display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap">
+  <!-- Cookie bar (não volta a aparecer depois de aceitar) -->
+  <div class="cookiebar" id="cookiebar" role="dialog" aria-live="polite">
+    <div style="display:flex; gap:10px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap">
       <div>
-        Usamos cookies mínimos para analytics anónimos e melhorar a experiência.
+        Usamos cookies mínimos para medição anónima e melhorar o site.
         <span class="links">Leia os <a href="#" data-open="terms">termos</a> e a <a href="#" data-open="cookies">política de cookies</a>.</span>
       </div>
-      <button id="acceptCookies" class="btn">Aceitar e continuar</button>
+      <button id="acceptCookies" class="btn">Aceitar</button>
     </div>
   </div>
 
-  <!-- Terms Modal -->
-  <div class="modal" id="modal-terms" aria-hidden="true">
-    <div class="box">
-      <span class="close" data-close="terms">✕</span>
-      <h3>Termos & Condições</h3>
-      <p class="muted">
-        Fornecemos serviços de gestão de redes, conteúdo e publicidade digital. A propriedade de contas (Business Manager,
-        pixels, domínios, GA4) permanece do cliente, salvo acordo expresso em contrário. Dados pessoais são tratados
-        segundo o RGPD com base em interesse legítimo e execução contratual. Cancelamentos requerem aviso prévio de 30 dias.
-      </p>
-    </div>
-  </div>
+  <!-- Modais -->
+  <div class="modal" id="modal-terms"><div class="box"><span class="close" data-close="terms">✕</span><h3>Termos</h3><p class="muted">Prestamos serviços de redes, conteúdos e anúncios. Contas e dados ficam no nome do cliente. Pedidos de cancelamento com 30 dias. Tratamento de dados segundo RGPD.</p></div></div>
+  <div class="modal" id="modal-cookies"><div class="box"><span class="close" data-close="cookies">✕</span><h3>Política de Cookies</h3><p class="muted">Cookies estritamente necessários e de medição anónima (Consent Mode). Pode gerir no seu navegador. Não vendemos dados.</p></div></div>
 
-  <!-- Cookies Modal -->
-  <div class="modal" id="modal-cookies" aria-hidden="true">
-    <div class="box">
-      <span class="close" data-close="cookies">✕</span>
-      <h3>Política de Cookies</h3>
-      <p class="muted">
-        Usamos cookies estritamente necessários (sessão) e cookies de medição anónima (GA4 com Consent Mode). Pode gerir consentimento no seu browser.
-        Não vendemos dados. Para pedidos RGPD, contacte-nos pelo formulário de marcação.
-      </p>
-    </div>
-  </div>
-
-  <!-- Scripts -->
+  <!-- JS -->
   <script>
-    // Dynamic year
+    // Ano dinâmico
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Scroll reveal
-    const revealEl = document.querySelectorAll('.reveal, .card, .tile, .person');
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
-      });
-    },{threshold:.12});
-    revealEl.forEach(el=>io.observe(el));
+    // Scroll reveal (suave, sem “altura infinita”)
+    const reveal = document.querySelectorAll('.reveal, .card, .person');
+    const io = new IntersectionObserver((es)=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} }),{threshold:.12});
+    reveal.forEach(el=>io.observe(el));
 
-    // Cookie bar logic (minimal GDPR-style)
-    const cookieKey="nl_cookie_ok_v1";
+    // Cookies/Termos (localStorage para não voltar a aparecer)
+    const cookieKey="nl_cookie_ok_v2";
     const bar = document.getElementById('cookiebar');
     if(!localStorage.getItem(cookieKey)) bar.style.display='block';
-    document.getElementById('acceptCookies').addEventListener('click', ()=>{
-      localStorage.setItem(cookieKey, '1'); bar.style.display='none';
+    document.getElementById('acceptCookies').addEventListener('click', ()=>{ localStorage.setItem(cookieKey,'1'); bar.style.display='none'; });
+    document.querySelectorAll('[data-open]').forEach(a=>a.addEventListener('click', (e)=>{e.preventDefault(); document.getElementById('modal-'+a.dataset.open).style.display='flex';}));
+    document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', ()=>{ document.getElementById('modal-'+b.dataset.close).style.display='none';}));
+    document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click', (e)=>{ if(e.target===m) m.style.display='none';}));
+
+    // Vídeo: som e pausa (autoplay precisa de mute; o utilizador ativa o som)
+    const vid = document.getElementById('bgvid');
+    const btnPlay = document.getElementById('togglePlay');
+    const btnSound = document.getElementById('toggleSound');
+    btnPlay.addEventListener('click', ()=>{
+      if(vid.paused){ vid.play(); btnPlay.textContent='Pausar'; } else { vid.pause(); btnPlay.textContent='Reproduzir'; }
+    });
+    btnSound.addEventListener('click', ()=>{
+      vid.muted = !vid.muted;
+      btnSound.textContent = vid.muted ? 'Som: Off' : 'Som: On';
     });
 
-    // Modal helpers
-    const openLinks = document.querySelectorAll('[data-open]');
-    const closeBtns  = document.querySelectorAll('[data-close]');
-    openLinks.forEach(a=>{
-      a.addEventListener('click', (e)=>{ e.preventDefault(); const id=a.dataset.open; document.getElementById('modal-'+id).style.display='flex';});
-    });
-    closeBtns.forEach(b=>{
-      b.addEventListener('click', ()=>{ document.getElementById('modal-'+b.dataset.close).style.display='none';});
-    });
-    document.querySelectorAll('.modal').forEach(m=>{
-      m.addEventListener('click', (e)=>{ if(e.target===m) m.style.display='none';});
-    });
+    // KPIs simples com contagem
+    function countTo(el, target, suffix='', dur=900){
+      const start=0, t0=performance.now();
+      function step(t){ const p=Math.min((t-t0)/dur,1); el.textContent = (start + (target-start)*p).toFixed(suffix==='%'?0:1) + suffix; if(p<1) requestAnimationFrame(step); }
+      requestAnimationFrame(step);
+    }
+    const vendas=73, cpl= -38, roas=3.9;
+    countTo(document.getElementById('kpiVendas'), vendas, '%', 1100);
+    countTo(document.getElementById('kpiCPL'), cpl, '%', 1100);
+    document.getElementById('kpiROAS').textContent = '×'+roas.toFixed(1);
 
-    // Chart.js — invented but plausible numbers (Jan–Sep 2025)
+    // Gráfico leve (altura controlada, sem “gigante”)
     document.addEventListener('DOMContentLoaded', ()=>{
       const ctx = document.getElementById('growth');
       if(!ctx) return;
-      const labels = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set'];
-      const data = [8, 12, 20, 18, 32, 45, 41, 58, 73]; // % aumento de vendas YoY atribuídas
-      const chart = new Chart(ctx, {
+      new Chart(ctx, {
         type:'line',
         data:{
-          labels,
-          datasets:[{
-            label:'% aumento de vendas atribuídas',
-            data,
-            tension:.35,
-            fill:true,
-            borderWidth:2,
-            borderColor:'#ffffff',
-            backgroundColor:'rgba(255,255,255,.08)',
-            pointRadius:0,
-            pointHoverRadius:5
-          }]
+          labels:['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set'],
+          datasets:[{ data:[8,12,20,18,32,45,41,58,73],
+            borderColor:'#ffffff', backgroundColor:'rgba(255,255,255,.08)',
+            tension:.35, pointRadius:0, fill:true, borderWidth:2 }]
         },
         options:{
-          responsive:true,
-          maintainAspectRatio:false,
+          responsive:true, maintainAspectRatio:true,
           scales:{
             x:{ grid:{color:'rgba(255,255,255,.05)'}, ticks:{color:'#cfcfcf'} },
             y:{ beginAtZero:true, grid:{color:'rgba(255,255,255,.05)'}, ticks:{color:'#cfcfcf', callback:(v)=>v+'%'} }
           },
-          plugins:{
-            legend:{display:false},
-            tooltip:{backgroundColor:'#0f0f0f', borderColor:'#2a2a2a', borderWidth:1, padding:10, callbacks:{label:(ctx)=>ctx.parsed.y+'%'}}
-          }
+          plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#0f0f0f', borderColor:'#2a2a2a', borderWidth:1, padding:10, callbacks:{label:(c)=>c.parsed.y+'%'}} }
         }
       });
-      // Simple ROAS KPI (synthetic)
-      const roas = (3.1 + (data[data.length-1]/100)).toFixed(2);
-      document.getElementById('kpi-roas').textContent = 'ROAS ×' + roas;
     });
   </script>
 
-  <!-- Cal floating-popup embed code begins -->
+  <!-- Cal floating-popup embed code (botão branco, canto inferior direito) -->
   <script type="text/javascript">
     (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
     Cal("init", "15min", {origin:"https://app.cal.com"});
-
-    Cal.ns["15min"]("floatingButton", {"calLink":"neuralogica/15min","config":{"layout":"week_view"},"buttonText":"Marcar uma Reunião Rápida"}); 
+    Cal.ns["15min"]("floatingButton", {
+      "calLink":"neuralogica/15min",
+      "config":{"layout":"week_view"},
+      "buttonText":"Marcar uma Reunião Rápida",
+      "buttonColor":"#ffffff","buttonTextColor":"#000000","buttonPosition":"bottom-right"
+    });
     Cal.ns["15min"]("ui", {"hideEventTypeDetails":false,"layout":"week_view"});
   </script>
-  <!-- Cal floating-popup embed code ends -->
 </body>
 </html>
