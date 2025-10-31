@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+      <meta charset="UTF-8">
+    <title>Relembro.me</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/QdC1HFFP/brainstorm.png">
+    <meta property="og:title" content="Relembro.me">
+    <meta property="og:description" content="Ainda se lembra do que importa?">
+    <meta property="og:image" content="https://i.postimg.cc/P50hY7qH/image.png">
+    <meta property="og:url" content="https://relembro.me">
+    <meta name="twitter:card" content="summary_large_image">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+      <br><br>
+    <!-- Vanishing Title -->
+    <h1 class="vanishing-title">RELEMBRO.ME</h1>
+
+    <!-- Dementia Counter -->
+    <div class="dementia-counter">
+        <div id="dementiaCount">0</div>
+        <div class="counter-label">pessoas diagnosticadas com demência desde que aqui está.</div>
+        <div class="counter-reference">
+            <a href="https://www.alzint.org/about/dementia-facts-figures/dementia-statistics/" target="_blank">[referência]</a>
+        </div>
+    </div>
+
+    <center>
+    <div class="container">
+        <div class="instructions">
+            
+            <div>
+                  <p>Quiz divertido para testar a memória.</p>
+                  <p>Para não nos esquecermos que a demência existe e que as memórias das pessoas de quem mais gostamos devem ser treinadas.</p>
+                  <p>Tem sempre duas rondas. Se não acertar à primeira, memorize a resposta para acertar quando a pergunta surgir na segunda ronda.</p>
+                <p>Experimente fazer de Amália ou Elvis e ser testado nos factos e nas pessoas importantes nas vidas deles:</p>
+                <div class="sample-data-buttons">
+                    <button class="btn" id="sampleData1">Amália Rodrigues</button>
+                    <button class="btn" id="sampleData2">Elvis Presley</button>
+                </div>
+            </div>
+            <br>
+            <div>
+                <p>Tipo de teste:</p>
+                <span class="toggle-button selected" id="toggleSentences">Afirmações</span>
+                <span class="toggle-button" id="togglePhotos">Fotos</span>
+            </div>
+            <br>
+            <input type="number" id="statementCount" class="form-control" placeholder="Número de perguntas (1-20)" min="1" max="20">
+            <br>
+            <!-- Added "Nome" Input Field -->
+            <input type="text" id="playerName" class="form-control" placeholder="Nome">
+            <br>
+            <button id="startQuizBtn" class="btn">Começar o Teste</button>
+
+
+              <h2>Para fazer com os seus dados ou de algum idoso que quer testar (nenhum dado inserido é partilhado connosco):</h2>
+            <ol>
+                <li>Clique para Abrir um Documento Novo.</li>
+                <li>Altere as informações da folha "Afirmações" e da folha "Fotos".</li>
+                <li>Clique em "Ficheiro" &gt;&gt; "Partilhar" &gt;&gt; "Publicar na Web" &gt;&gt; Mude de "Página Web" para "Microsoft Excel" &gt;&gt; Copiar o link gerado.</li>
+                <li>Cole o link na caixa aqui em baixo.</li>
+            </ol>
+            <div class="sample-data-buttons">
+                <a href="https://docs.google.com/spreadsheets/d/1RKL2jXgsYzbH1TOVoLe7Lecbh_7vH9HIXaizQMSJ0YE/copy" target="_blank" class="btn">Abrir um Documento Novo</a>
+            </div>
+            <input type="text" id="excelURL" class="form-control" placeholder="Insira a URL do arquivo Excel...">
+            <br>
+        </div>
+    </div>
+
+        </center>
+
+    <div id="quizContainer" class="fullscreen">
+        <div class="controls">
+            <span id="questionNumber" class="question-number">Pergunta: 1</span>
+            <span id="timer" class="timer">00:00</span>
+            <button id="nextQuestionBtn" class="btn" style="display: none;">»</button>
+            <button id="closeQuizBtn" class="btn">X</button>
+        </div>
+        <div id="question" class="question">Aqui aparecerá a pergunta...</div>
+        <img id="quizImage" src="" alt="" style="display: none;">
+        <div class="answer-buttons">
+            <button class="btn btn-blue" data-answer="yes" id="answerYes">👍 Sim</button>
+            <button class="btn btn-blue" data-answer="no" id="answerNo">👎 Não</button>
+            <button class="btn btn-blue" data-answer="idk" id="answerIdk">🤷 Não sei</button>
+        </div>
+        <footer>© 2024 - André e Marisa</footer>
+    </div>
+
+    <!-- Results Container -->
+    <div id="resultsContainer" style="display: none;"></div>
+
+      <br>
+<center><p>© 2024 - <a href="https://www.linkedin.com/in/andrefrsilva/">André</a> e Marisa</p>     </center>
+
+    <!-- External Scripts -->
+    <script src="xlsx.full.min.js"></script>
+    <script src="plotly-latest.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
