@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pastelaria Filipe - Encomendas</title>
+    <title>Pastelaria Filipe - Encomendas Online</title>
+    <link rel="manifest" href="manifest.json">
     <style>
         /* ---------------------------------- */
         /* 1. GLOBAIS & TEMA "PASTELARIA"
@@ -59,16 +60,6 @@
         /* ---------------------------------- */
         /* 2. ESTRUTURA APP & FULLSCREEN
         /* ---------------------------------- */
-
-        #launch-button-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%23f0ece0" /><path d="M 10 10 L 90 90 M 10 90 L 90 10" stroke="%23e0d9cd" stroke-width="1" /></svg>');
-            background-size: 50px;
-        }
         
         .launch-button {
             padding: 18px 36px;
@@ -93,16 +84,12 @@
             width: 100vw;
             height: 100vh;
             max-height: 100vh;
-            display: none;
             flex-direction: column;
             background-color: var(--theme-background);
             overflow: hidden;
-        }
-        
-        #app-container.running {
             display: flex;
         }
-
+        
         header {
             background-color: var(--theme-background);
             padding: 10px 20px;
@@ -609,11 +596,13 @@
             content: '-';
         }
         .accordion-content {
-            display: none;
-            padding: 10px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 10px;
         }
         .accordion-content.active {
-            display: block;
+            max-height: 1000px;
         }
         #revenda-countdown {
             text-align: center;
@@ -628,6 +617,13 @@
             height: 100%;
             pointer-events: none;
             z-index: 300;
+        }
+        #revenda-total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--theme-primary);
+            text-align: center;
+            margin-bottom: 15px;
         }
 
         /* ---------------------------------- */
@@ -1110,10 +1106,6 @@
 </head>
 <body>
 
-    <div id="launch-button-wrapper">
-        <button id="launch-app-btn" class="launch-button">Encomendar</button>
-    </div>
-
     <div id="app-container">
 
         <header>
@@ -1159,6 +1151,7 @@
                         <div id="revenda-countdown"></div>
                         <input type="text" id="revenda-search" placeholder="Pesquisar artigos..." class="form-group">
                         <div id="revenda-product-list"></div>
+                        <div id="revenda-total">Total: 0.00€</div>
                         <button id="revenda-submit" class="btn btn-primary">Enviar Encomenda</button>
                     </div>
 
@@ -1186,11 +1179,7 @@
                                 <div class="form-group">
                                     <label for="b2c-pickup-location">Local de Levantamento</label>
                                     <select id="b2c-pickup-location" required>
-                                        <option value="">Selecione um local...</option>
-                                        <option value="Casa Mãe – Praça da Figueira 18B">Casa Mãe – Praça da Figueira 18B</option>
-                                        <option value="Belém – Av Brasília">Belém – Av Brasília (junto à Torre)</option>
-                                        <option value="Quisque Amoreiras Shopping">Quisque Amoreiras Shopping (junto aos CTT)</option>
-                                        <option value="Fábrica – Campo de Ourique">Fábrica – Campo de Ourique</option>
+                                        <option value="R. Cidade de Nova Lisboa 70, 2680-035 Camarate">R. Cidade de Nova Lisboa 70, 2680-035 Camarate</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -1342,10 +1331,7 @@
                             <label for="admin-filter-location">Local</label>
                             <select id="admin-filter-location">
                                 <option value="all">Todos os Locais</option>
-                                <option value="Casa Mãe – Praça da Figueira 18B">Casa Mãe</option>
-                                <option value="Belém – Av Brasília">Belém</option>
-                                <option value="Quisque Amoreiras Shopping">Amoreiras</option>
-                                <option value="Fábrica – Campo de Ourique">Fábrica</option>
+                                <option value="R. Cidade de Nova Lisboa 70, 2680-035 Camarate">R. Cidade de Nova Lisboa 70, 2680-035 Camarate</option>
                             </select>
                         </div>
                     </div>
@@ -1628,8 +1614,6 @@
             };
 
             // --- ELEMENTOS DOM GLOBAIS ---
-            const launchBtn = document.getElementById('launch-app-btn');
-            const launchWrapper = document.getElementById('launch-button-wrapper');
             const appContainer = document.getElementById('app-container');
             const pageContent = document.getElementById('page-content');
             const navButtons = document.querySelectorAll('.nav-button');
@@ -1647,9 +1631,6 @@
             // --- 1. CORE APP (FULLSCREEN, NAVEGAÇÃO, MODAIS) ---
 
             function initAppCore() {
-                launchBtn.addEventListener('click', openFullscreen);
-                document.addEventListener('fullscreenchange', onFullscreenChange);
-
                 document.getElementById('bottom-nav').addEventListener('click', (e) => {
                     const navButton = e.target.closest('.nav-button');
                     if (navButton && navButton.dataset.page) {
@@ -1664,32 +1645,6 @@
                         hideImageModal();
                     }
                 });
-            }
-
-            function openFullscreen() {
-                const elem = document.documentElement;
-                if (elem.requestFullscreen) elem.requestFullscreen();
-                else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-                else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
-                
-                launchWrapper.style.display = 'none';
-                appContainer.classList.add('running');
-            }
-
-            function closeFullscreen() {
-                if (document.exitFullscreen) document.exitFullscreen();
-                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-                else if (document.msExitFullscreen) document.msExitFullscreen();
-                
-                launchWrapper.style.display = 'flex';
-                appContainer.classList.remove('running');
-            }
-
-            function onFullscreenChange() {
-                if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                    launchWrapper.style.display = 'flex';
-                    appContainer.classList.remove('running');
-                }
             }
 
             function showPage(pageId) {
@@ -1751,36 +1706,52 @@
                 confettiCanvas.width = window.innerWidth;
                 confettiCanvas.height = window.innerHeight;
                 let particles = [];
-                for (let i = 0; i < 100; i++) {
+                const numParticles = 300; // Increased
+                const colors = ['#ff0000', '#ff9900', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#9900ff', '#ff00ff'];
+                for (let i = 0; i < numParticles; i++) {
                     particles.push({
                         x: Math.random() * confettiCanvas.width,
                         y: Math.random() * confettiCanvas.height - confettiCanvas.height,
-                        r: Math.random() * 10 + 5,
-                        color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-                        speed: Math.random() * 5 + 2,
-                        angle: Math.random() * Math.PI * 2
+                        r: Math.random() * 6 + 2, // Smaller for more
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        speed: Math.random() * 10 + 5, // Faster
+                        angle: Math.random() * Math.PI * 2,
+                        rotation: Math.random() * Math.PI * 2,
+                        rotSpeed: (Math.random() - 0.5) * 0.2, // Rotation
+                        gravity: 0.05, // Add gravity
+                        vx: (Math.random() - 0.5) * 10, // Horizontal velocity for explosion
+                        vy: Math.random() * -15 - 10 // Upward explosion
                     });
                 }
+                let animationFrame;
                 function animate() {
                     confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
                     particles.forEach(p => {
-                        p.y += p.speed;
-                        p.x += Math.sin(p.angle) * 2;
-                        p.angle += 0.05;
-                        confettiCtx.beginPath();
-                        confettiCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                        p.vy += p.gravity;
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.rotation += p.rotSpeed;
+                        confettiCtx.save();
+                        confettiCtx.translate(p.x, p.y);
+                        confettiCtx.rotate(p.rotation);
                         confettiCtx.fillStyle = p.color;
-                        confettiCtx.fill();
+                        confettiCtx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); // Rectangle for confetti shape
+                        confettiCtx.restore();
+                        if (p.y > confettiCanvas.height + p.r) {
+                            particles = particles.filter(part => part !== p);
+                        }
                     });
-                    if (particles.some(p => p.y < confettiCanvas.height)) {
-                        requestAnimationFrame(animate);
+                    if (particles.length > 0) {
+                        animationFrame = requestAnimationFrame(animate);
                     }
                 }
                 animate();
-                setTimeout(() => confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height), 5000);
+                setTimeout(() => {
+                    cancelAnimationFrame(animationFrame);
+                    confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                }, 5000);
             }
-
-
+          
             // --- 2. GESTÃO DE ESTADO (LOCAL STORAGE & SEEDING) ---
 
             function saveState() {
@@ -1817,7 +1788,7 @@
                     { name: 'MaxiPao', username: 'maxipao', type: 'revenda' },
                     { name: 'OutraRevenda', username: 'outra', type: 'revenda' }
                 ];
-                const locations = ["Casa Mãe – Praça da Figueira 18B", "Belém – Av Brasília", "Quisque Amoreiras Shopping", "Fábrica – Campo de Ourique"];
+                const locations = ["R. Cidade de Nova Lisboa 70, 2680-035 Camarate"];
                 const items = PRODUCT_CATALOG.particular.natal.concat(PRODUCT_CATALOG.particular.especiais).concat(PRODUCT_CATALOG.revenda.pastelaria).concat(PRODUCT_CATALOG.revenda.bolos_especiais).concat(PRODUCT_CATALOG.revenda.salgados).concat(PRODUCT_CATALOG.revenda.pao).concat(PRODUCT_CATALOG.revenda.natal);
                 const today = new Date();
                 
@@ -1846,7 +1817,7 @@
                         username: client.username || '',
                         orderDate: orderDate.toISOString(),
                         pickupDate: pickupDate.toISOString(),
-                        pickupLocation: locations[i % locations.length],
+                        pickupLocation: locations[0],
                         clientCode: 'N/A',
                         total: total,
                         status: status,
@@ -1875,7 +1846,7 @@
                 demoOrders.push({
                     id: `PF-${orderId++}`, clientName: 'Filipe Antunes', clientPhone: '919999999',
                     orderDate: today.toISOString(), pickupDate: tomorrow.toISOString(),
-                    pickupLocation: 'Casa Mãe – Praça da Figueira 18B', total: 60, status: 'recebido', paid: true,
+                    pickupLocation: locations[0], total: 60, status: 'recebido', paid: true,
                     type: 'particular',
                     items: [{ itemId: 'BOLO_ANIV', name: 'Bolo de Aniversário', quantity: 2, unit: 'kg', price: 30, status: 'recebido', customFields: { nome_aniversariante: 'Parabéns', bolo_type: 'pao de lo normal', imagem_edivel: false } }],
                     timestamps: { recebido: today.toISOString(), producao: null, terminado: null, levantado: null, entregue: null, cancelado: null }
@@ -1883,7 +1854,7 @@
                  demoOrders.push({
                     id: `PF-${orderId++}`, clientName: 'Maria Cliente', clientPhone: '960000000',
                     orderDate: today.toISOString(), pickupDate: dayAfter.toISOString(),
-                    pickupLocation: 'Belém – Av Brasília', total: 5.25, status: 'recebido', paid: false,
+                    pickupLocation: locations[0], total: 5.25, status: 'recebido', paid: false,
                     type: 'particular',
                     items: [{ itemId: 'TRANCA_CREME', name: 'Trança C/ Creme', quantity: 3, unit: 'unidade', price: 1.75, status: 'recebido', customFields: {} }],
                     timestamps: { recebido: today.toISOString(), producao: null, terminado: null, levantado: null, entregue: null, cancelado: null }
@@ -1895,7 +1866,7 @@
                 demoOrders.push({
                     id: `PF-${orderId++}`, clientName: 'MaxiPao', username: 'maxipao',
                     orderDate: yesterday.toISOString(), pickupDate: today.toISOString(),
-                    pickupLocation: 'Fábrica – Campo de Ourique', total: 20, status: 'recebido', paid: false,
+                    pickupLocation: locations[0], total: 20, status: 'recebido', paid: false,
                     type: 'revenda',
                     items: [{ itemId: 'TRANCA_CREME', name: 'Trança C/ Creme', quantity: 10, unit: 'unid', price: 1.00, status: 'recebido', customFields: {} }],
                     timestamps: { recebido: yesterday.toISOString(), producao: null, terminado: null, levantado: null, entregue: null, cancelado: null }
@@ -1903,7 +1874,7 @@
                 demoOrders.push({
                     id: `PF-${orderId++}`, clientName: 'OutraRevenda', username: 'outra',
                     orderDate: yesterday.toISOString(), pickupDate: today.toISOString(),
-                    pickupLocation: 'Fábrica – Campo de Ourique', total: 20, status: 'recebido', paid: false,
+                    pickupLocation: locations[0], total: 20, status: 'recebido', paid: false,
                     type: 'revenda',
                     items: [{ itemId: 'TRANCA_CREME', name: 'Trança C/ Creme', quantity: 10, unit: 'unid', price: 1.00, status: 'recebido', customFields: {} }],
                     timestamps: { recebido: yesterday.toISOString(), producao: null, terminado: null, levantado: null, entregue: null, cancelado: null }
@@ -1957,6 +1928,16 @@
                     handleAccordionClick(e);
                     handleProductClick(e);
                 });
+                revendaProductList.addEventListener('input', (e) => {
+                    if (e.target.classList.contains('qty-input')) {
+                        updateRevendaTotal();
+                    }
+                });
+                revendaProductList.addEventListener('change', (e) => {
+                    if (e.target.type === 'checkbox' && e.target.dataset.fieldId === 'imagem_edivel') {
+                        updateRevendaTotal();
+                    }
+                });
                 checkRevendaLogin();
             }
 
@@ -1973,76 +1954,31 @@
                 checkoutBtn.disabled = true;
                 state.cart = [];
                 renderCart();
+                document.querySelector('.checkout-sidebar').style.display = state.mode === 'particular' ? 'block' : 'none';
                 if (state.mode === 'revenda') {
                     renderRevendaProducts();
                     startCountdown();
+                    updateRevendaTotal();
                 } else {
                     renderAllProducts();
                 }
             }
 
-            function handleRevendaLogin(e) {
-                e.preventDefault();
-                const username = document.getElementById('revenda-username').value.toLowerCase();
-                const password = document.getElementById('revenda-password').value;
-                if (REVENDA_USERS[username] && REVENDA_USERS[username] === password) {
-                    localStorage.setItem('revendaUser', username);
-                    revendaLogin.style.display = 'none';
-                    revendaContent.style.display = 'block';
-                    renderRevendaProducts();
-                    startCountdown();
-                    revendaLoginError.style.display = 'none';
-                } else {
-                    revendaLoginError.style.display = 'block';
-                }
-            }
-
-            function checkRevendaLogin() {
-                const user = localStorage.getItem('revendaUser');
-                if (user && REVENDA_USERS[user]) {
-                    revendaLogin.style.display = 'none';
-                    revendaContent.style.display = 'block';
-                    renderRevendaProducts();
-                    startCountdown();
-                }
-            }
-
-            function startCountdown() {
-                const updateCountdown = () => {
-                    const now = new Date();
-                    const deadline = new Date(now);
-                    deadline.setHours(19, 0, 0, 0);
-                    if (now > deadline) {
-                        revendaCountdown.textContent = 'Prazo para encomenda de amanhã expirado.';
-                        revendaSubmit.disabled = true;
-                        return;
+            function updateRevendaTotal() {
+                let total = 0;
+                revendaProductList.querySelectorAll('.qty-input').forEach(input => {
+                    const qty = parseFloat(input.value) || 0;
+                    const card = input.closest('.product-card');
+                    const productId = card.dataset.productId;
+                    const product = findProduct(productId);
+                    let price = product.price;
+                    if (product.customFields) {
+                        const imagemCheckbox = card.querySelector('[data-field-id="imagem_edivel"]');
+                        if (imagemCheckbox && imagemCheckbox.checked) price += 3;
                     }
-                    const diff = deadline - now;
-                    const hours = Math.floor(diff / 3600000);
-                    const minutes = Math.floor((diff % 3600000) / 60000);
-                    const seconds = Math.floor((diff % 60000) / 1000);
-                    revendaCountdown.textContent = `Tempo restante para encomenda de amanhã: ${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    if (localStorage.getItem(`revendaOrderDone_${now.toDateString()}`)) {
-                        revendaCountdown.textContent += ' (Encomenda já enviada hoje)';
-                    } else {
-                        revendaCountdown.textContent += ' (Ainda não fez a sua encomenda para amanhã)';
-                    }
-                };
-                updateCountdown();
-                setInterval(updateCountdown, 1000);
-            }
-
-            function renderAllProducts() {
-                let html = '';
-                const catalog = PRODUCT_CATALOG[state.mode].natal || PRODUCT_CATALOG.particular.natal;
-                html += '<h3>🎄 Especial Natal</h3>';
-                catalog.forEach(p => html += createProductCard(p));
-                
-                const especiais = PRODUCT_CATALOG[state.mode].especiais || PRODUCT_CATALOG.particular.especiais;
-                html += '<h3>🎂 Bolos Especiais</h3>';
-                especiais.forEach(p => html += createProductCard(p));
-                
-                productListContainer.innerHTML = html;
+                    total += price * qty;
+                });
+                document.getElementById('revenda-total').textContent = `Total: ${formatCurrency(total)}`;
             }
 
             function renderRevendaProducts(search = '') {
@@ -2059,374 +1995,83 @@
                         html += `
                             <div class="accordion-section">
                                 <div class="accordion-header"># ${section.charAt(0).toUpperCase() + section.slice(1)}</div>
-                                <div class="accordion-content active">${itemsHtml}</div>
+                                <div class="accordion-content">${itemsHtml}</div>
                             </div>
                         `;
                     }
                 });
                 revendaProductList.innerHTML = html;
-            }
-
-            function handleRevendaSearch(e) {
-                renderRevendaProducts(e.target.value);
+                updateRevendaTotal();
             }
 
             function handleAccordionClick(e) {
                 const header = e.target.closest('.accordion-header');
                 if (header) {
+                    header.classList.toggle('active');
                     const content = header.nextElementSibling;
                     content.classList.toggle('active');
                 }
             }
 
-            function createProductCard(product, isRevenda = false) {
-                const isKg = product.unit.includes('kg');
-                const step = product.step || 1;
-                const min = product.min || (isKg ? 0.5 : 1);
-                
-                let customFieldsHtml = '';
-                if (product.customFields) {
-                    customFieldsHtml = '<div class="bolo-aniversario-fields">';
-                    product.customFields.forEach(field => {
-                        if (field.type === 'select') {
-                            customFieldsHtml += `
-                                <div class="form-group">
-                                    <label for="field-${product.id}-${field.id}">${field.label}</label>
-                                    <select id="field-${product.id}-${field.id}" data-field-id="${field.id}">
-                                        ${field.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
-                                    </select>
-                                </div>`;
-                        } else if (field.type === 'checkbox') {
-                            customFieldsHtml += `
-                                <div class="form-group">
-                                    <input type="checkbox" id="field-${product.id}-${field.id}" data-field-id="${field.id}">
-                                    <label for="field-${product.id}-${field.id}">${field.label}</label>
-                                </div>`;
-                        } else if (field.type === 'file') {
-                            customFieldsHtml += `
-                                <div class="form-group" id="upload-group-${product.id}" style="display: none;">
-                                    <label for="field-${product.id}-${field.id}">${field.label}</label>
-                                    <input type="file" id="field-${product.id}-${field.id}" data-field-id="${field.id}" accept="image/*">
-                                </div>`;
-                        } else if (field.type === 'textarea') {
-                            customFieldsHtml += `
-                                <div class="form-group">
-                                    <label for="field-${product.id}-${field.id}">${field.label}</label>
-                                    <textarea id="field-${product.id}-${field.id}" data-field-id="${field.id}" placeholder="${field.placeholder || ''}"></textarea>
-                                </div>`;
-                        } else {
-                             customFieldsHtml += `
-                                <div class="form-group">
-                                    <label for="field-${product.id}-${field.id}">${field.label}</label>
-                                    <input type="${field.type}" id="field-${product.id}-${field.id}" data-field-id="${field.id}" placeholder="${field.placeholder || ''}">
-                                </div>`;
-                        }
-                    });
-                    customFieldsHtml += '<p>Velas de oferta incluídas.</p></div>';
-                }
-
-                let imgHtml = product.img ? `
-                    <div class="product-image-thumb" data-img-src="${product.img}" data-img-alt="${product.name}">
-                        <img src="${product.img}" alt="${product.name}">
-                    </div>` : `<div class="product-image-thumb">${product.name.charAt(0)}</div>`;
-
-                return `
-                    <div class="product-card" id="form-${product.id}" data-product-id="${product.id}">
-                        ${imgHtml}
-                        
-                        <div class="product-info">
-                            <strong>${product.name}</strong>
-                            <span class="product-price">${formatCurrency(product.price)} / ${product.unit}</span>
-                            
-                            <div class="product-actions">
-                                <div class="quantity-stepper">
-                                    <button type="button" class="qty-minus" data-step="${step}" data-min="${min}">-</button>
-                                    <input type="number" value="${isRevenda && localStorage.getItem(`revenda_${product.id}`) || 0}" min="0" step="${step}" class="qty-input" ${isKg ? '' : 'readonly'}>
-                                    <button type="button" class="qty-plus" data-step="${step}" data-min="${min}">+</button>
-                                </div>
-                            </div>
-                            
-                            ${customFieldsHtml}
-                            
-                            ${!isRevenda ? '<button type="button" class="btn btn-secondary btn-add-cart" style="width: auto; padding: 8px 15px; font-size: 0.9rem; margin-top: 15px;">Adicionar</button>' : ''}
-                        </div>
-                    </div>
-                `;
-            }
-            
-            function handleProductClick(e) {
-                const target = e.target;
-                
-                if (target.closest('.product-image-thumb')) {
-                    const thumb = target.closest('.product-image-thumb');
-                    if(thumb.dataset.imgSrc) {
-                        showImageModal(thumb.dataset.imgSrc, thumb.dataset.imgAlt);
-                    }
-                }
-                
-                const stepper = target.closest('.quantity-stepper');
-                if (stepper) {
-                    const input = stepper.querySelector('.qty-input');
-                    const step = parseFloat(target.dataset.step || 1);
-                    const min = parseFloat(target.dataset.min || 0);
-                    let val = parseFloat(input.value);
-                    
-                    if (target.classList.contains('qty-plus')) {
-                        val = (val < min) ? min : val + step;
-                    } else if (target.classList.contains('qty-minus')) {
-                        val = Math.max(0, val - step);
-                    }
-                    
-                    input.value = (step < 1) ? val.toFixed(1) : val.toFixed(0);
-                    if (state.mode === 'revenda') {
-                        const productId = stepper.closest('.product-card').dataset.productId;
-                        if (val > 0) {
-                            localStorage.setItem(`revenda_${productId}`, val);
-                        } else {
-                            localStorage.removeItem(`revenda_${productId}`);
-                        }
-                    }
-                }
-                
-                if (target.classList.contains('btn-add-cart')) {
-                    const card = target.closest('.product-card');
-                    const productId = card.dataset.productId;
-                    const product = findProduct(productId);
-                    
-                    if (product) {
-                        const quantity = parseFloat(card.querySelector('.qty-input').value);
-                        if (quantity <= 0) {
-                            showToast("Por favor, adicione uma quantidade válida.");
-                            return;
-                        }
-                        
-                        let customFields = {};
-                        let customDesc = [];
-                        
-                        if (product.customFields) {
-                            card.querySelectorAll('.bolo-aniversario-fields [data-field-id]').forEach(field => {
-                                if (field.type === 'checkbox') {
-                                    customFields[field.dataset.fieldId] = field.checked;
-                                    if (field.checked) customDesc.push(field.labels[0].textContent);
-                                } else if (field.type === 'file') {
-                                    if (field.files[0] && field.files[0].size <= 10 * 1024 * 1024) {
-                                        const reader = new FileReader();
-                                        reader.onload = () => {
-                                            customFields[field.dataset.fieldId] = reader.result;
-                                        };
-                                        reader.readAsDataURL(field.files[0]);
-                                    }
-                                } else if (field.value) {
-                                    customFields[field.dataset.fieldId] = field.value;
-                                    customDesc.push(`${field.labels[0].textContent}: ${field.value}`);
-                                }
-                            });
-                        }
-                        card.querySelector('.qty-input').value = 0;
-                        
-                        addToCart(product, quantity, customFields, customDesc.join(', '));
-                    }
-                }
-
-                if (target.dataset.fieldId === 'bolo_type') {
-                    const card = target.closest('.product-card');
-                    const productId = card.dataset.productId;
-                    const product = findProduct(productId);
-                    const priceEl = card.querySelector('.product-price');
-                    const newPrice = product.types[target.value];
-                    product.price = newPrice;
-                    priceEl.textContent = `${formatCurrency(newPrice)} / ${product.unit}`;
-                }
-
-                if (target.dataset.fieldId === 'imagem_edivel') {
-                    const card = target.closest('.product-card');
-                    const uploadGroup = card.querySelector(`#upload-group-${card.dataset.productId}`);
-                    uploadGroup.style.display = target.checked ? 'block' : 'none';
-                }
-            }
-            
-            function findProduct(id) {
-                const modeCatalog = PRODUCT_CATALOG[state.mode];
-                for (let section in modeCatalog) {
-                    const prod = modeCatalog[section].find(p => p.id === id);
-                    if (prod) return prod;
-                }
-                return null;
-            }
-
-            function getCartId(product, customDesc) {
-                const customId = customDesc ? customDesc.replace(/[\s,:]/g, '').toLowerCase() : '';
-                return `${product.id}_${customId}`;
-            }
-
-            function addToCart(product, quantity, customFields, customDesc) {
-                const cartId = getCartId(product, customDesc);
-                const existingItem = state.cart.find(item => item.cartId === cartId);
-                
-                if (existingItem) {
-                    existingItem.quantity = parseFloat(existingItem.quantity) + parseFloat(quantity);
-                    showToast(`Quantidade atualizada para ${existingItem.quantity}x ${product.name}.`);
-                } else {
-                    const cartItem = {
-                        cartId: cartId, id: product.id, name: product.name,
-                        quantity: quantity, unit: product.unit.split(' ')[0],
-                        price: product.price, customFields: customFields, customDesc: customDesc
-                    };
-                    state.cart.push(cartItem);
-                    showToast(`${quantity}x ${product.name} adicionado ao carrinho.`);
-                }
-                
-                renderCart();
-            }
-            
-            function handleCartItemRemove(e) {
-                if (e.target.classList.contains('cart-item-remove')) {
-                    const cartId = e.target.dataset.cartId;
-                    state.cart = state.cart.filter(item => item.cartId !== cartId);
-                    renderCart();
-                    showToast("Item removido do carrinho.");
-                }
-            }
-
-            function renderCart() {
-                if (state.cart.length === 0) {
-                    cartItemsList.innerHTML = '';
-                    cartEmptyMsg.style.display = 'block';
-                    cartTotalEl.textContent = 'Total: 0.00€';
-                    checkoutBtn.disabled = true;
-                    checkoutFormContainer.style.display = 'none';
-                    return;
-                }
-                
-                cartEmptyMsg.style.display = 'none';
-                let html = '';
-                let total = 0;
-                
-                state.cart.forEach(item => {
-                    let itemPrice = item.price;
-                    if (item.customFields.imagem_edivel) itemPrice += 3;
-                    const itemTotal = itemPrice * item.quantity;
-                    total += itemTotal;
-                    
-                    const qtyDisplay = item.unit === 'kg' ? `${item.quantity} kg` : `${item.quantity}x`;
-                    
-                    html += `
-                        <div class="cart-item">
-                            <div class="cart-item-info">
-                                <strong>${qtyDisplay} ${item.name}</strong>
-                                <span>${formatCurrency(itemTotal)}</span>
-                                ${item.customDesc ? `<span>${item.customDesc}</span>` : ''}
-                            </div>
-                            <button class="cart-item-remove" data-cart-id="${item.cartId}">&times;</button>
-                        </div>
-                    `;
+            function formatDate(date) {
+                return date.toLocaleDateString('pt-PT', {
+                    day: '2-digit', month: '2-digit', year: 'numeric'
                 });
-                
-                cartItemsList.innerHTML = html;
-                cartTotalEl.textContent = `Total: ${formatCurrency(total)}`;
-                checkoutBtn.disabled = false;
-            }
-            
-            function getMinPickupDate() {
-                const now = new Date();
-                const minDate = new Date();
-                const cutoffHour = 15;
-                
-                if (now.getHours() >= cutoffHour) {
-                    minDate.setDate(minDate.getDate() + 2);
-                } else {
-                    minDate.setDate(minDate.getDate() + 1);
-                }
-                minDate.setHours(0, 0, 0, 0);
-                return minDate;
             }
 
-            function initPickupDatePicker() {
-                const minDate = getMinPickupDate();
-                const minDateString = minDate.toISOString().split('T')[0];
+            function createOrderTicket(order) {
+                const orderDate = new Date(order.orderDate);
+                const pickupDate = new Date(order.pickupDate);
+                const needsExpansion = order.items.length > 3;
                 
-                pickupDateInput.min = minDateString;
-                
-                const now = new Date();
-                const cutoffHour = 15;
-                if (now.getHours() >= cutoffHour) {
-                    pickupDateNote.textContent = 'Encomendas após as 15h, levantamento a partir de depois de amanhã.';
-                } else {
-                    pickupDateNote.textContent = 'Encomendas antes das 15h, levantamento a partir de amanhã.';
-                }
-            }
-            
-            function handleOrderSubmit(e) {
-                e.preventDefault();
-                
-                const selectedDateStr = pickupDateInput.value;
-                const selectedTimeStr = pickupTimeInput.value;
-                
-                if (!selectedDateStr || !selectedTimeStr) {
-                    showToast("Por favor, preencha a data e hora de levantamento.");
-                    return;
-                }
-                
-                const selectedDate = new Date(selectedDateStr + "T00:00:00");
-                const minDate = getMinPickupDate();
-
-                if (selectedDate < minDate) {
-                    showToast("Data de levantamento inválida. Por favor, verifique as regras.");
-                    initPickupDatePicker();
-                    return;
-                }
-                
-                if (selectedTimeStr < "08:00" || selectedTimeStr > "20:00") {
-                    showToast("Hora de levantamento inválida. (Disponível das 08:00 às 20:00)");
-                    return;
-                }
-
-                const orderId = `PF-${state.nextOrderId}`;
-                state.nextOrderId++;
-                
-                let total = state.cart.reduce((sum, item) => {
-                    let price = item.price;
-                    if (item.customFields.imagem_edivel) price += 3;
-                    return sum + (price * item.quantity);
-                }, 0);
-                const orderDateISO = new Date().toISOString();
-                const clientPhone = document.getElementById('b2c-telemovel').value;
-                
-                const newOrder = {
-                    id: orderId,
-                    clientName: document.getElementById('b2c-nome-cliente').value,
-                    clientPhone: clientPhone,
-                    orderDate: orderDateISO,
-                    pickupDate: `${selectedDateStr}T${selectedTimeStr}:00`,
-                    pickupLocation: document.getElementById('b2c-pickup-location').value,
-                    clientCode: document.getElementById('b2c-codigo-cliente').value || 'N/A',
-                    total: total,
-                    status: 'recebido',
-                    paid: false,
-                    type: 'particular',
-                    items: state.cart.map(cartItem => ({
-                        itemId: cartItem.id, name: cartItem.name, quantity: cartItem.quantity,
-                        unit: cartItem.unit, price: cartItem.price, status: 'recebido',
-                        customFields: cartItem.customFields
-                    })),
-                    timestamps: {
-                        recebido: orderDateISO, producao: null, terminado: null,
-                        levantado: null, entregue: null, cancelado: null
-                    }
-                };
-
-                state.orders.push(newOrder);
-                saveState();
-                
-                localStorage.setItem('currentUserPhone', clientPhone);
-                
-                state.cart = [];
-                renderCart();
-                b2cForm.reset();
-                initPickupDatePicker();
-                checkoutFormContainer.style.display = 'none';
-                
-                showToast(`Encomenda #${orderId} recebida! Pode vê-la em "As Minhas".`);
+                return `
+                <div class="card order-ticket status-${order.status}" data-order-id="${order.id}">
+                    <div class="ticket-header">
+                        <strong>${order.clientName || order.username}</strong>
+                        <span class="ticket-id">#${order.id}</span>
+                    </div>
+                    <div class="ticket-details">
+                        <p><strong>Levantamento:</strong> ${order.type === 'revenda' ? formatDate(pickupDate) : formatDateTime(pickupDate)}</p>
+                        <p><strong>Encomenda:</strong> ${formatDateTime(orderDate)}</p>
+                        <p><strong>Contacto:</strong> ${order.clientPhone || ''}</p>
+                        <p><strong>Pagamento:</strong> <span style="font-weight: 700; color: ${order.paid ? 'var(--status-terminado)' : 'var(--status-cancelado)'}">${order.paid ? 'Pago' : 'Pendente'}</span></p>
+                        <p><strong>Total:</strong> ${formatCurrency(order.total)}</p>
+                    </div>
+                    <div class="ticket-items">
+                        <strong>Itens (${order.items.length}):</strong>
+                        <ul class="ticket-items-list ${needsExpansion ? 'expandable' : ''}">
+                            ${order.items.map(item => {
+                                const qtyDisplay = item.unit === 'kg' ? `${item.quantity} kg` : `${item.quantity}x`;
+                                let customHtml = '';
+                                if (item.customFields.upload_imagem) {
+                                    customHtml = `<button data-action="view-image" data-src="${item.customFields.upload_imagem}">Ver Imagem</button> <a href="${item.customFields.upload_imagem}" download>Download</a>`;
+                                }
+                                return `
+                                <li>
+                                    ${qtyDisplay} ${item.name}
+                                    <span class="item-status item-status-${item.status}">${item.status}</span>
+                                    ${customHtml}
+                                </li>
+                            `}).join('')}
+                        </ul>
+                        ${needsExpansion ? '<button class="expand-items-btn" data-action="expand-items">[Ver Todos]</button>' : ''}
+                    </div>
+                    
+                    <div class="order-status-segmented">
+                        <button data-action="set-status" data-status="recebido" class="${order.status === 'recebido' ? 'active' : ''}">Recebido</button>
+                        <button data-action="set-status" data-status="producao" class="${order.status === 'producao' ? 'active' : ''}">Produção</button>
+                        <button data-action="set-status" data-status="terminado" class="${order.status === 'terminado' ? 'active' : ''}">Terminado</button>
+                        <button data-action="set-status" data-status="levantado" class="${order.status === 'levantado' ? 'active' : ''}">Levantado</button>
+                        <button data-action="set-status" data-status="entregue" class="${order.status === 'entregue' ? 'active' : ''}">Entregue</button>
+                        <button data-action="set-status" data-status="cancelado" class="${order.status === 'cancelado' ? 'active' : ''}">x</button>
+                    </div>
+                    
+                    <div class="ticket-status-control">
+                        <button class="btn ${order.paid ? 'btn-secondary' : 'btn-primary'}" data-action="toggle-paid">
+                            ${order.paid ? 'Marcar Pendente' : 'Marcar Pago'}
+                        </button>
+                    </div>
+                </div>`;
             }
 
             function handleRevendaSubmit() {
@@ -2480,7 +2125,7 @@
                     username: user,
                     orderDate: new Date().toISOString(),
                     pickupDate: tomorrow.toISOString(),
-                    pickupLocation: 'Fábrica – Campo de Ourique',
+                    pickupLocation: "R. Cidade de Nova Lisboa 70, 2680-035 Camarate",
                     clientCode: 'N/A',
                     total: total,
                     status: 'recebido',
@@ -2499,638 +2144,7 @@
                 revendaProductList.querySelectorAll('.qty-input').forEach(input => input.value = 0);
                 localStorage.removeItem(`revendaOrderDone_${today}`);
                 startCountdown();
-            }
-
-            // --- 4. PÁGINA "MINHAS ENCOMENDAS" (NOVO) ---
-            
-            const myOrdersPage = document.getElementById('page-my-orders');
-            const myOrdersLogin = document.getElementById('my-orders-login');
-            const myOrdersLoginForm = document.getElementById('my-orders-login-form');
-            const myOrdersLoginInput = document.getElementById('my-orders-phone-input');
-            const myOrdersListContainer = document.getElementById('my-orders-list-container');
-            const myOrdersList = document.getElementById('my-orders-list');
-            const myOrdersPhoneDisplay = document.getElementById('my-orders-phone-display');
-            const myOrdersLogoutBtn = document.getElementById('my-orders-logout-btn');
-
-            function initMyOrdersPage() {
-                myOrdersLoginForm.addEventListener('submit', handleMyOrdersLogin);
-                myOrdersLogoutBtn.addEventListener('click', handleMyOrdersLogout);
-                renderMyOrdersPage();
-            }
-
-            function handleMyOrdersLogin(e) {
-                e.preventDefault();
-                const phone = myOrdersLoginInput.value;
-                if (phone) {
-                    localStorage.setItem('currentUserPhone', phone);
-                    renderMyOrdersPage();
-                }
-            }
-
-            function handleMyOrdersLogout() {
-                localStorage.removeItem('currentUserPhone');
-                myOrdersLoginInput.value = '';
-                renderMyOrdersPage();
-            }
-
-            function renderMyOrdersPage() {
-                const phone = localStorage.getItem('currentUserPhone');
-                
-                if (!phone) {
-                    myOrdersLogin.style.display = 'block';
-                    myOrdersListContainer.style.display = 'none';
-                } else {
-                    myOrdersLogin.style.display = 'none';
-                    myOrdersListContainer.style.display = 'block';
-                    myOrdersPhoneDisplay.textContent = phone;
-                    
-                    const clientOrders = state.orders
-                        .filter(o => o.clientPhone === phone)
-                        .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
-                        
-                    if (clientOrders.length === 0) {
-                        myOrdersList.innerHTML = '<p class="card">Ainda não tem encomendas registadas com este número.</p>';
-                        return;
-                    }
-                    
-                    myOrdersList.innerHTML = clientOrders.map(createMyOrderTicket).join('');
-                }
-            }
-            
-            function createMyOrderTicket(order) {
-                const pickupDate = new Date(order.pickupDate);
-                
-                const statusMap = {
-                    recebido: 'Recebida',
-                    producao: 'Em Produção',
-                    terminado: 'Pronta a Levantar',
-                    levantado: 'Levantada',
-                    entregue: 'Entregue',
-                    cancelado: 'Cancelada'
-                };
-                
-                return `
-                <div class="card order-ticket my-order-ticket status-${order.status}">
-                    <div class="ticket-header">
-                        <strong>Encomenda #${order.id}</strong>
-                        <span class="ticket-id" style="color: var(--theme-primary); font-weight: 700;">${statusMap[order.status] || order.status}</span>
-                    </div>
-                    <div class="ticket-details">
-                        <p><strong>Levantamento:</strong> ${formatDateTime(pickupDate)}</p>
-                        <p><strong>Local:</strong> ${order.pickupLocation}</p>
-                        <p><strong>Total:</strong> ${formatCurrency(order.total)}</p>
-                        <p><strong>Pagamento:</strong> <span style="font-weight: 700; color: ${order.paid ? 'var(--status-terminado)' : 'var(--status-cancelado)'}">${order.paid ? 'Pago' : 'Pendente'}</span></p>
-                    </div>
-                    <div class="ticket-items">
-                        <strong>Itens:</strong>
-                        <ul class="ticket-items-list" style="max-height: none; list-style-type: none; padding-left: 0;">
-                            ${order.items.map(item => {
-                                const qtyDisplay = item.unit === 'kg' ? `${item.quantity} kg` : `${item.quantity}x`;
-                                return `<li>- ${qtyDisplay} ${item.name}</li>`;
-                            }).join('')}
-                        </ul>
-                    </div>
-                </div>`;
-            }
-
-            // --- 5. PÁGINA STAFF ---
-            
-            const staffOrderList = document.getElementById('staff-order-list');
-            const noOrdersMsg = document.getElementById('no-orders-message');
-            const staffViewItemBtn = document.getElementById('staff-view-item-btn');
-            const staffViewOrderBtn = document.getElementById('staff-view-order-btn');
-            const staffModeParticularBtn = document.getElementById('staff-view-particular-btn');
-            const staffModeRevendaBtn = document.getElementById('staff-view-revenda-btn');
-            
-            const staffSearchInput = document.getElementById('staff-search-input');
-            const staffFilterStatus = document.getElementById('staff-filter-status');
-            const staffSortBy = document.getElementById('staff-sort-by');
-            const staffFilterPickupDate = document.getElementById('staff-filter-pickup-date');
-            const staffFilterOrderDate = document.getElementById('staff-filter-order-date');
-            const staffSubtotal = document.getElementById('staff-subtotal');
-
-            function initStaffPage() {
-                staffFilterStatus.value = 'all_active';
-                staffSortBy.value = 'pickupDateAsc';
-                
-                staffViewItemBtn.addEventListener('click', () => setStaffView('item'));
-                staffViewOrderBtn.addEventListener('click', () => setStaffView('order'));
-                staffModeParticularBtn.addEventListener('click', () => setStaffMode('particular'));
-                staffModeRevendaBtn.addEventListener('click', () => setStaffMode('revenda'));
-                
-                [staffSearchInput, staffFilterStatus, staffSortBy, staffFilterPickupDate, staffFilterOrderDate].forEach(el => {
-                    el.addEventListener('input', renderStaffPage);
-                });
-                
-                staffOrderList.addEventListener('click', handleStaffTicketClick);
-                
-                renderStaffPage();
-            }
-            
-            function setStaffView(view) {
-                state.staffView = view;
-                staffViewItemBtn.classList.toggle('active', view === 'item');
-                staffViewOrderBtn.classList.toggle('active', view === 'order');
-                renderStaffPage();
-            }
-            
-            function setStaffMode(mode) {
-                state.staffMode = mode;
-                staffModeParticularBtn.classList.toggle('active', mode === 'particular');
-                staffModeRevendaBtn.classList.toggle('active', mode === 'revenda');
-                renderStaffPage();
-            }
-
-            function getFilteredAndSortedData() {
-                const search = staffSearchInput.value.toLowerCase();
-                const status = staffFilterStatus.value;
-                const sort = staffSortBy.value;
-                const pickupDate = staffFilterPickupDate.value;
-                const orderDate = staffFilterOrderDate.value;
-                
-                let data = [];
-                
-                let filteredOrders = state.orders.filter(o => o.type === state.staffMode);
-                if (state.staffMode === 'revenda') {
-                    const todayStr = new Date().toISOString().split('T')[0];
-                    filteredOrders = filteredOrders.filter(o => o.pickupDate.startsWith(todayStr));
-                }
-
-                if (state.staffView === 'order') {
-                    data = filteredOrders;
-                } else {
-                    let aggregated = {};
-                    filteredOrders.forEach(order => {
-                        order.items.forEach(item => {
-                            if (!aggregated[item.name]) {
-                                aggregated[item.name] = { ...item, quantity: 0, orders: [] };
-                            }
-                            aggregated[item.name].quantity += item.quantity;
-                            aggregated[item.name].orders.push(order);
-                        });
-                    });
-                    data = Object.values(aggregated);
-                }
-                
-                let filteredData = data.filter(d => {
-                    const clientName = (d.clientName || '').toLowerCase();
-                    if (search && !clientName.includes(search)) return false;
-                    
-                    const itemStatus = d.status;
-                    if (status === 'all_active' && (itemStatus === 'levantado' || itemStatus === 'entregue' || itemStatus === 'cancelado')) return false;
-                    else if (status !== 'all' && status !== 'all_active' && itemStatus !== status) return false;
-                    
-                    if (pickupDate && !d.pickupDate.startsWith(pickupDate)) return false;
-                    
-                    if (orderDate && !d.orderDate.startsWith(orderDate)) return false;
-                    
-                    return true;
-                });
-                
-                filteredData.sort((a, b) => {
-                    switch (sort) {
-                        case 'pickupDateAsc': return new Date(a.pickupDate) - new Date(b.pickupDate);
-                        case 'pickupDateDesc': return new Date(b.pickupDate) - new Date(a.pickupDate);
-                        case 'orderDateAsc': return new Date(a.orderDate) - new Date(b.orderDate);
-                        case 'orderDateDesc': return new Date(b.orderDate) - new Date(a.orderDate);
-                        default: return new Date(a.pickupDate) - new Date(b.pickupDate);
-                    }
-                });
-                
-                return filteredData;
-            }
-
-            function renderStaffPage() {
-                const data = getFilteredAndSortedData();
-                
-                if (data.length === 0) {
-                    staffOrderList.innerHTML = '';
-                    staffOrderList.appendChild(noOrdersMsg.cloneNode(true));
-                    staffSubtotal.textContent = '';
-                    return;
-                }
-                
-                let html = '';
-                let subtotalPaid = 0;
-                let subtotalUnpaid = 0;
-                if (state.staffView === 'order') {
-                    data.forEach(order => {
-                        html += createOrderTicket(order);
-                        const total = order.total;
-                        if (order.paid) subtotalPaid += total;
-                        else subtotalUnpaid += total;
-                    });
-                } else {
-                    data.forEach(item => html += createItemTicket(item));
-                }
-                staffOrderList.innerHTML = html;
-                staffSubtotal.textContent = `Subtotal: Pagos ${formatCurrency(subtotalPaid)} | Não Pagos ${formatCurrency(subtotalUnpaid)} | Total ${formatCurrency(subtotalPaid + subtotalUnpaid)}`;
-            }
-
-            function createOrderTicket(order) {
-                const orderDate = new Date(order.orderDate);
-                const pickupDate = new Date(order.pickupDate);
-                const needsExpansion = order.items.length > 3;
-                
-                return `
-                <div class="card order-ticket status-${order.status}" data-order-id="${order.id}">
-                    <div class="ticket-header">
-                        <strong>${order.clientName || order.username}</strong>
-                        <span class="ticket-id">#${order.id}</span>
-                    </div>
-                    <div class="ticket-details">
-                        <p><strong>Levantamento:</strong> ${formatDateTime(pickupDate)}</p>
-                        <p><strong>Encomenda:</strong> ${formatDateTime(orderDate)}</p>
-                        <p><strong>Contacto:</strong> ${order.clientPhone || ''}</p>
-                        <p><strong>Pagamento:</strong> <span style="font-weight: 700; color: ${order.paid ? 'var(--status-terminado)' : 'var(--status-cancelado)'}">${order.paid ? 'Pago' : 'Pendente'}</span></p>
-                        <p><strong>Total:</strong> ${formatCurrency(order.total)}</p>
-                    </div>
-                    <div class="ticket-items">
-                        <strong>Itens (${order.items.length}):</strong>
-                        <ul class="ticket-items-list ${needsExpansion ? 'expandable' : ''}">
-                            ${order.items.map(item => {
-                                const qtyDisplay = item.unit === 'kg' ? `${item.quantity} kg` : `${item.quantity}x`;
-                                let customHtml = '';
-                                if (item.customFields.upload_imagem) {
-                                    customHtml = `<button data-action="view-image" data-src="${item.customFields.upload_imagem}">Ver Imagem</button> <a href="${item.customFields.upload_imagem}" download>Download</a>`;
-                                }
-                                return `
-                                <li>
-                                    ${qtyDisplay} ${item.name}
-                                    <span class="item-status item-status-${item.status}">${item.status}</span>
-                                    ${customHtml}
-                                </li>
-                            `}).join('')}
-                        </ul>
-                        ${needsExpansion ? '<button class="expand-items-btn" data-action="expand-items">[Ver Todos]</button>' : ''}
-                    </div>
-                    
-                    <div class="order-status-segmented">
-                        <button data-action="set-status" data-status="recebido" class="${order.status === 'recebido' ? 'active' : ''}">Recebido</button>
-                        <button data-action="set-status" data-status="producao" class="${order.status === 'producao' ? 'active' : ''}">Produção</button>
-                        <button data-action="set-status" data-status="terminado" class="${order.status === 'terminado' ? 'active' : ''}">Terminado</button>
-                        <button data-action="set-status" data-status="levantado" class="${order.status === 'levantado' ? 'active' : ''}">Levantado</button>
-                        <button data-action="set-status" data-status="entregue" class="${order.status === 'entregue' ? 'active' : ''}">Entregue</button>
-                        <button data-action="set-status" data-status="cancelado" class="${order.status === 'cancelado' ? 'active' : ''}">x</button>
-                    </div>
-                    
-                    <div class="ticket-status-control">
-                        <button class="btn ${order.paid ? 'btn-secondary' : 'btn-primary'}" data-action="toggle-paid">
-                            ${order.paid ? 'Marcar Pendente' : 'Marcar Pago'}
-                        </button>
-                    </div>
-                </div>`;
-            }
-
-            function createItemTicket(item) {
-                const orderDate = new Date(item.orderDate);
-                const pickupDate = new Date(item.pickupDate);
-                const qtyDisplay = item.unit === 'kg' ? `${item.quantity} kg` : `${item.quantity}x`;
-
-                return `
-                <div class="card order-ticket status-${item.status}" data-order-id="${item.orderId}" data-item-id="${item.itemId}" data-item-name="${item.name}">
-                    <div class="ticket-header">
-                        <strong>${qtyDisplay} ${item.name}</strong>
-                        <span class="ticket-id">Item da Enc. #${item.orderId}</span>
-                    </div>
-                    <div class="ticket-details">
-                        <p><strong>Cliente:</strong> ${item.orders.map(o => o.clientName).join(', ')}</p>
-                        <p><strong>Levantamento:</strong> ${formatDateTime(pickupDate)}</p>
-                        <p><strong>Pagamento:</strong> <span style="font-weight: 700; color: ${item.orders[0].paid ? 'var(--status-terminado)' : 'var(--status-cancelado)'}">${item.orders[0].paid ? 'Pago' : 'Pendente'}</span></p>
-                        ${item.customFields && Object.keys(item.customFields).length > 0 ? 
-                            `<p><strong>Obs:</strong> ${Object.values(item.customFields).join(', ')}</p>` : ''}
-                    </div>
-                    
-                    <div class="order-status-segmented">
-                        <button data-action="set-status" data-status="recebido" class="${item.status === 'recebido' ? 'active' : ''}">Recebido</button>
-                        <button data-action="set-status" data-status="producao" class="${item.status === 'producao' ? 'active' : ''}">Produção</button>
-                        <button data-action="set-status" data-status="terminado" class="${item.status === 'terminado' ? 'active' : ''}">Terminado</button>
-                        <button data-action="set-status" data-status="levantado" class="${item.status === 'levantado' ? 'active' : ''}">Levantado</button>
-                        <button data-action="set-status" data-status="entregue" class="${item.status === 'entregue' ? 'active' : ''}">Entregue</button>
-                        <button data-action="set-status" data-status="cancelado" class="${item.status === 'cancelado' ? 'active' : ''}">Cancelado</button>
-                    </div>
-                </div>`;
-            }
-            
-            function handleStaffTicketClick(e) {
-                const action = e.target.dataset.action;
-                const card = e.target.closest('.order-ticket');
-                if (!action || !card) return;
-                
-                const orderId = card.dataset.orderId;
-                const order = state.orders.find(o => o.id === orderId);
-                if (!order) return;
-                
-                if (action === 'expand-items') {
-                    const list = card.querySelector('.ticket-items-list');
-                    list.classList.toggle('expanded');
-                    list.classList.remove('expandable');
-                    e.target.textContent = list.classList.contains('expanded') ? '[Esconder]' : '[Ver Todos]';
-                    return;
-                }
-                
-                if (action === 'toggle-paid') {
-                    order.paid = !order.paid;
-                    showToast(`Pagamento da #${orderId} atualizado para "${order.paid ? 'Pago' : 'Pendente'}".`);
-                }
-                
-                if (action === 'set-status') {
-                    const newStatus = e.target.dataset.status;
-                    
-                    if (state.staffView === 'order') {
-                        order.status = newStatus;
-                        if (!order.timestamps[newStatus]) order.timestamps[newStatus] = new Date().toISOString();
-                        
-                        order.items.forEach(item => {
-                            if (item.status !== 'cancelado' && item.status !== 'levantado' && item.status !== 'entregue') {
-                               item.status = newStatus;
-                            }
-                        });
-                        showToast(`Encomenda #${orderId} atualizada para "${newStatus}".`);
-                    
-                    } else {
-                        const itemId = card.dataset.itemId;
-                        const itemName = card.dataset.itemName;
-                        
-                        const item = order.items.find(i => i.itemId === itemId && i.name === itemName);
-                        
-                        if(item) {
-                            item.status = newStatus;
-                            if(newStatus === 'producao' && !order.timestamps.producao) order.timestamps.producao = new Date().toISOString();
-                        }
-                        
-                        updateOrderStatusFromItems(order);
-                        showToast(`Item ${item.name} da #${orderId} atualizado para "${newStatus}".`);
-                    }
-                }
-
-                if (action === 'view-image') {
-                    showImageModal(e.target.dataset.src, 'Imagem do Bolo');
-                }
-                
-                saveState();
-                renderStaffPage();
-            }
-            
-            function updateOrderStatusFromItems(order) {
-                const itemStatuses = order.items.map(i => i.status);
-                
-                if (itemStatuses.every(s => s === 'levantado' || s === 'entregue')) order.status = 'levantado';
-                else if (itemStatuses.every(s => s === 'terminado' || s === 'levantado' || s === 'entregue')) order.status = 'terminado';
-                else if (itemStatuses.some(s => s === 'producao')) order.status = 'producao';
-                else if (itemStatuses.every(s => s === 'recebido')) order.status = 'recebido';
-
-                if(order.status === 'terminado' && !order.timestamps.terminado) order.timestamps.terminado = new Date().toISOString();
-                if(order.status === 'levantado' && !order.timestamps.levantado) order.timestamps.levantado = new Date().toISOString();
-                if(order.status === 'entregue' && !order.timestamps.entregue) order.timestamps.entregue = new Date().toISOString();
-            }
-
-            // --- 6. PÁGINA ADMIN ---
-            
-            const adminFilterDate = document.getElementById('admin-filter-date');
-            const adminFilterStatus = document.getElementById('admin-filter-status');
-            const adminFilterItem = document.getElementById('admin-filter-item');
-            const adminFilterClient = document.getElementById('admin-filter-client');
-            const adminFilterLocation = document.getElementById('admin-filter-location');
-            const adminExportBtn = document.getElementById('admin-export-csv');
-
-            function initAdminPage() {
-                adminFilterDate.value = ''; 
-                
-                populateAdminFilters();
-                
-                const filters = [adminFilterDate, adminFilterStatus, adminFilterItem, adminFilterClient, adminFilterLocation];
-                filters.forEach(f => f.addEventListener('change', () => {
-                    state.adminFilters.chartViewDate = new Date(adminFilterDate.value || new Date());
-                    renderAdminDashboard();
-                }));
-                
-                adminExportBtn.addEventListener('click', exportDataToCSV);
-                
-                document.getElementById('admin-chart-week-prev').addEventListener('click', () => navigateChart('week', -1));
-                document.getElementById('admin-chart-week-next').addEventListener('click', () => navigateChart('week', 1));
-                document.getElementById('admin-chart-month-prev').addEventListener('click', () => navigateChart('month', -1));
-                document.getElementById('admin-chart-month-next').addEventListener('click', () => navigateChart('month', 1));
-
-                renderAdminDashboard();
-            }
-            
-            function navigateChart(unit, direction) {
-                const d = state.adminFilters.chartViewDate;
-                if (unit === 'week') {
-                    d.setDate(d.getDate() + (7 * direction));
-                } else if (unit === 'month') {
-                    d.setMonth(d.getMonth() + direction);
-                }
-                state.adminFilters.chartViewDate = new Date(d);
-                renderCharts();
-            }
-
-            function populateAdminFilters() {
-                const itemNames = new Set();
-                const clientNames = new Set();
-                
-                state.orders.forEach(order => {
-                    clientNames.add(order.clientName);
-                    order.items.forEach(item => itemNames.add(item.name));
-                });
-                
-                adminFilterItem.innerHTML = '<option value="all">Todos os Itens</option>';
-                [...itemNames].sort().forEach(name => {
-                    adminFilterItem.innerHTML += `<option value="${name}">${name}</option>`;
-                });
-                
-                adminFilterClient.innerHTML = '<option value="all">Todos os Clientes</option>';
-                [...clientNames].sort().forEach(name => {
-                    adminFilterClient.innerHTML += `<option value="${name}">${name}</option>`;
-                });
-            }
-            
-            function getFilteredAdminOrders() {
-                const date = adminFilterDate.value;
-                const status = adminFilterStatus.value;
-                const item = adminFilterItem.value;
-                const client = adminFilterClient.value;
-                const location = adminFilterLocation.value;
-                
-                return state.orders.filter(order => {
-                    if (date && !order.pickupDate.startsWith(date)) return false;
-                    
-                    if (status !== 'all') {
-                        if (status === 'pago' && !order.paid) return false;
-                        if (status !== 'pago' && order.status !== status) return false;
-                    }
-                    
-                    if (client !== 'all' && order.clientName !== client) return false;
-                    
-                    if (location !== 'all' && order.pickupLocation !== location) return false;
-                    
-                    if (item !== 'all' && !order.items.some(i => i.name === item)) return false;
-                    
-                    return true;
-                });
-            }
-
-            function renderAdminDashboard() {
-                const filteredOrders = getFilteredAdminOrders();
-                
-                const totalRevenue = filteredOrders.reduce((sum, o) => sum + o.total, 0);
-                const totalOrders = filteredOrders.length;
-                const avgTicket = totalOrders > 0 ? totalRevenue / totalOrders : 0;
-                
-                document.getElementById('admin-kpi-revenue').textContent = formatCurrency(totalRevenue);
-                document.getElementById('admin-kpi-orders').textContent = totalOrders;
-                document.getElementById('admin-kpi-avg-ticket').textContent = formatCurrency(avgTicket);
-                
-                const canceledOrders = filteredOrders.filter(o => o.status === 'cancelado').length;
-                const wastePerc = totalOrders > 0 ? (canceledOrders / totalOrders) * 100 : 0;
-                
-                document.getElementById('admin-kpi-waste').textContent = `${wastePerc.toFixed(0)}%`;
-                document.getElementById('admin-kpi-waste-sub').textContent = `${canceledOrders} / ${totalOrders}`;
-                
-                const fullTimes = [], prodTimes = [];
-                let lateProd = 0, notPicked = 0;
-                const now = new Date();
-                
-                filteredOrders.forEach(o => {
-                    if (o.timestamps.recebido && o.timestamps.terminado) {
-                        fullTimes.push(new Date(o.timestamps.terminado) - new Date(o.timestamps.recebido));
-                    }
-                    if (o.timestamps.producao && o.timestamps.terminado) {
-                        prodTimes.push(new Date(o.timestamps.terminado) - new Date(o.timestamps.producao));
-                    }
-                    if (o.timestamps.terminado && new Date(o.timestamps.terminado) > new Date(o.pickupDate)) {
-                        lateProd++;
-                    }
-                    if (now > new Date(o.pickupDate) && o.status !== 'levantado' && o.status !== 'entregue' && o.status !== 'cancelado') {
-                        notPicked++;
-                    }
-                });
-
-                document.getElementById('admin-kpi-time-full').textContent = formatAvgTime(fullTimes);
-                document.getElementById('admin-kpi-time-prod').textContent = formatAvgTime(prodTimes);
-                document.getElementById('admin-kpi-time-deadline').textContent = totalOrders > 0 ? `${((lateProd / totalOrders) * 100).toFixed(0)}%` : '0%';
-                document.getElementById('admin-kpi-time-pickup').textContent = totalOrders > 0 ? `${((notPicked / totalOrders) * 100).toFixed(0)}%` : '0%';
-
-                renderCharts();
-            }
-            
-            function renderCharts() {
-                const viewDate = state.adminFilters.chartViewDate;
-                
-                const weekStart = new Date(viewDate);
-                weekStart.setDate(viewDate.getDate() - viewDate.getDay());
-                const weekData = [];
-                const weekLabels = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-                
-                for(let i=0; i<7; i++) {
-                    const d = new Date(weekStart);
-                    d.setDate(weekStart.getDate() + i);
-                    const dayStr = d.toISOString().split('T')[0];
-                    const dayTotal = state.orders
-                        .filter(o => o.pickupDate.startsWith(dayStr))
-                        .reduce((sum, o) => sum + o.total, 0);
-                    weekData.push({ label: weekLabels[i], value: dayTotal });
-                }
-                
-                document.getElementById('admin-chart-week-title').textContent = `Receita (€) - Semana de ${weekStart.toLocaleDateString('pt-PT', {day:'2-digit', month:'2-digit'})}`;
-                renderChart('admin-chart-week', weekData);
-
-                const monthStart = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1);
-                const daysInMonth = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 0).getDate();
-                const monthData = [];
-                
-                for(let i=1; i<=daysInMonth; i++) {
-                    const d = new Date(monthStart);
-                    d.setDate(i);
-                    const dayStr = d.toISOString().split('T')[0];
-                    const dayTotal = state.orders
-                        .filter(o => o.pickupDate.startsWith(dayStr))
-                        .reduce((sum, o) => sum + o.total, 0);
-                    monthData.push({ label: `${i}`, value: dayTotal });
-                }
-
-                document.getElementById('admin-chart-month-title').textContent = `Receita (€) - ${monthStart.toLocaleString('pt-PT', { month: 'long', year: 'numeric' })}`;
-                renderChart('admin-chart-month', monthData);
-            }
-            
-            function renderChart(containerId, data) {
-                const container = document.getElementById(containerId);
-                const maxValue = Math.max(10, ...data.map(d => d.value));
-                let html = '';
-                
-                data.forEach(bar => {
-                    const height = maxValue > 0 ? (bar.value / maxValue) * 100 : 0;
-                    html += `
-                        <div class="chart-bar" style="height: ${height.toFixed(0)}%;">
-                            <span class="bar-value">${bar.value > 1 ? formatCurrency(bar.value, 0) : ''}</span>
-                            <span class="bar-label">${bar.label}</span>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
-            }
-            
-            function exportDataToCSV() {
-                let csvContent = "data:text/csv;charset=utf-8,";
-                
-                const headers = [
-                    "OrderID", "Tipo", "Cliente", "Telemovel", "Username", "Data Encomenda", "Data Levantamento", 
-                    "Local", "Status", "Pago", "Total", "ItemID", "ItemNome", "Quantidade", 
-                    "Unidade", "ItemStatus", "CustomFields"
-                ];
-                csvContent += headers.join(";") + "\r\n";
-                
-                state.orders.forEach(order => {
-                    order.items.forEach(item => {
-                        const row = [
-                            order.id, order.type, `"${order.clientName}"`, order.clientPhone || '',
-                            order.username || '', order.orderDate, order.pickupDate, `"${order.pickupLocation}"`,
-                            order.status, order.paid, order.total, item.itemId,
-                            `"${item.name}"`, item.quantity, item.unit, item.status,
-                            `"${JSON.stringify(item.customFields).replace(/"/g, '""')}"`
-                        ];
-                        csvContent += row.join(";") + "\r\n";
-                    });
-                });
-                
-                const encodedUri = encodeURI(csvContent);
-                const link = document.createElement("a");
-                link.setAttribute("href", encodedUri);
-                link.setAttribute("download", "export_encomendas_pastelaria_filipe.csv");
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
-            
-            // --- 7. HELPERS ---
-            
-            function formatCurrency(value, decimals = 2) {
-                return new Intl.NumberFormat('pt-PT', { 
-                    style: 'currency', currency: 'EUR',
-                    minimumFractionDigits: decimals,
-                    maximumFractionDigits: decimals
-                }).format(value);
-            }
-            
-            function formatDateTime(date) {
-                return date.toLocaleString('pt-PT', {
-                    day: '2-digit', month: '2-digit', year: 'numeric',
-                    hour: '2-digit', minute: '2-digit'
-                });
-            }
-            
-            function formatAvgTime(times) {
-                if (times.length === 0) return '--';
-                const avgMs = times.reduce((a, b) => a + b, 0) / times.length;
-                if (avgMs < 0) return 'Inválido';
-                const hours = Math.floor(avgMs / 3600000);
-                const minutes = Math.floor((avgMs % 3600000) / 60000);
-                return `${hours}h ${minutes}m`;
-            }
-
-            function removeAccents(str) {
-                return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                updateRevendaTotal();
             }
 
             // --- INICIALIZAÇÃO ---
